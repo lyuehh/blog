@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>使用csslint校验css文件</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/blog/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/blog/css/main.css">
+
+    </head>
+    <body>
+
+        <div class="container">
+          <div class="site">
+            <div class="header">
+              <h1 class="title"><a href="/blog/index.html">blog</a></h1>
+              <a class="extra" href="/blog/about.html">about</a>
+            </div>
+
+            <h2>使用csslint校验css文件</h2>
+<p class="meta">2012-11-01 22:55</p>
+
+<div id="post">
+<h1>简介</h1>
+
+<p>CSS Lint是一个开源的校验CSS文件质量的工具，最初是由<a href="http://www.nczonline.net/">Nicholas C. Zakas</a>和<a href="http://www.stubbornella.org/">Nicole Sullivan</a>编写的，最初版本在Velocity会议上于2011年6月发布。</p>
+
+<p>它静态的分析源代码，根据一定的规则，为开发者找出其中可能会出错或者引发问题的地方。</p>
+
+<p>以下是规则的翻译，有删减，请以原文为准。</p>
+
+<h1>规则</h1>
+
+<h2>1. 可能的错误</h2>
+
+<h3>1.1 Beware of box model size - 注意盒模型</h3>
+
+<pre><code>.mybox {
+    border: 1px solid black;
+    padding: 5px;
+    width: 100px;
+}
+</code></pre>
+
+<p>会给出警告，mybox实际上的宽是112px,
+大部分浏览器下你使用box-sizing会使mybox的宽为100px</p>
+
+<pre><code>.mybox {
+    box-sizing: border-box;
+    border: 1px solid black;
+    padding: 5px;
+    width: 100px;
+}
+</code></pre>
+
+<h3>1.2 Require properties appropriate for display - display 应该有合适的属性</h3>
+
+<pre><code>display: inline, the width,height, margin-top, margin-bottom,float
+</code></pre>
+
+<p>对inline元素无效</p>
+
+<pre><code>margin-left,margin-right
+</code></pre>
+
+<p>依然有效</p>
+
+<pre><code>display: inline used with width, height, margin, margin-top, margin-bottom, and float.  
+display: inline-block used with float.  
+display: block used with vertical-align.  
+display: table-* used with margin (and all variants) or float.
+</code></pre>
+
+<h3>1.3 Disallow duplicate properties - 重复的属性</h3>
+
+<pre><code>.mybox {
+    width: 100px;
+    width: 120px;
+}
+</code></pre>
+
+<h3>1.4 Disallow empty rules - 禁止空属性</h3>
+
+<pre><code>.foo {
+}
+</code></pre>
+
+<h3>1.5 Require use of known properties - 只允许使用已知的属性</h3>
+
+<pre><code>a {
+    clr: red;
+}
+</code></pre>
+
+<h2>2. 兼容性</h2>
+
+<h3>2.1 Disallow adjoining classes - 禁用连续的css选择器</h3>
+
+<pre><code>.foo.bar {
+    border: 1px solid black;
+}
+.first .abc.def {
+    color: red;
+}
+</code></pre>
+
+<h3>2.2 Disallow box-sizing - 禁用box-sizing,ie 6,7 不支持此属性</h3>
+
+<pre><code>.mybox {
+    box-sizing: border-box;
+    border: 1px solid black;
+    padding: 5px;
+    width: 100px;
+}
+</code></pre>
+
+<h3>2.3 Require compatible vendor prefixes - 使用兼容的浏览器自定义前缀</h3>
+
+<pre><code>/* Missing -moz, -ms, and -o */
+.mybox {
+    -webkit-transform: translate(50px, 100px);
+}
+/* Missing -webkit */
+.mybox {
+    -moz-border-radius: 5px;
+}
+</code></pre>
+
+<h3>2.4 Require all gradient definitions - 声明所有的css渐变</h3>
+
+<pre><code>/* Missing -moz, -ms, and -o */
+.mybox {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1e5799), color-stop(100%,#7db9e8));
+    background: -webkit-linear-gradient(top,  #1e5799 0%,#7db9e8 100%);
+}
+/* Missing old and new -webkit */
+.mybox {
+    background: -moz-linear-gradient(top,  #1e5799 0%, #7db9e8 100%); 
+    background: -o-linear-gradient(top,  #1e5799 0%,#7db9e8 100%);
+    background: -ms-linear-gradient(top,  #1e5799 0%,#7db9e8 100%);
+}
+</code></pre>
+
+<h3>2.5 Disallow negative text-indent - 禁用为负值的text-indent ,建议加上direction</h3>
+
+<pre><code>.mybox {
+    background: url(bg.png) no-repeat;
+    direction: ltr;
+    text-indent: -9999px;
+}
+</code></pre>
+
+<h3>2.6 Require standard property with vendor prefix - 使用标准的浏览器前缀</h3>
+
+<pre><code>/* missing standard property */
+.mybox {
+    -moz-border-radius: 5px;
+}
+/* standard property should come after vendor-prefixed property */
+.mybox {
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+</code></pre>
+
+<h3>2.7 Require fallback colors - 使用向后兼容的raga颜色</h3>
+
+<pre><code>/* missing fallback color */
+.mybox {
+    color: rgba(100, 200, 100, 0.5);
+}
+/* fallback color should be before */
+.mybox {
+    background-color: hsl(100, 50%, 100%);
+    background-color: green;
+}
+</code></pre>
+
+<h3>2.8 Disallow star hack (new in v0.9.8) - 禁用ie 6 7 的*号hack</h3>
+
+<pre><code>.mybox {
+    border: 1px solid black;
+    *width: 100px;
+}
+</code></pre>
+
+<h3>2.9 Disallow underscore hack (new in v0.9.8) - 禁用ie 6的下划线_ hack</h3>
+
+<pre><code>.mybox {
+    border: 1px solid black;
+    _width: 100px;
+}
+</code></pre>
+
+<h2>3. 性能</h2>
+
+<h3>3.1 Don't use too many web fonts - 不允许使用过多的web fonts</h3>
+
+<h3>3.2 Disallow @import - 禁用@import 因为要阻塞下载</h3>
+
+<h3>3.3 Disallow selectors that look like regular expressions - 禁用类似正则表达式的选择器，可能会影响性能</h3>
+
+<p>禁用</p>
+
+<p> <code>*=, |=, ^=, $=, or ~=.</code></p>
+
+<pre><code>.mybox[class~=xxx]{
+    color: red;
+}
+.mybox[class^=xxx]{
+    color: red;
+}
+.mybox[class|=xxx]{
+    color: red;
+}
+.mybox[class$=xxx]{
+    color: red;
+}
+.mybox[class*=xxx]{
+    color: red;
+}
+</code></pre>
+
+<p>这些允许使用</p>
+
+<pre><code>.mybox[class=xxx]{
+    color: red;
+}
+.mybox[class]{
+    color: red;
+}
+</code></pre>
+
+<h3>3.4 Disallow universal selector - 禁用星号选择器，可能会有性能问题</h3>
+
+<pre><code>* {
+    color: red;
+}
+.selected * {
+    color: red;
+}
+</code></pre>
+
+<p>这些是允许的</p>
+
+<pre><code>/* universal selector is not key */
+.selected * a {
+    color: red;
+}
+</code></pre>
+
+<h3>3.5 Disallow unqualified attribute selectors - 禁用不合适的属性选择器</h3>
+
+<pre><code>.mybox [type=text] {
+    background: #fff;
+    color: #000;
+    background: rgba(255, 255, 255, 0.5);
+}
+</code></pre>
+
+<p>浏览器从右往左解析，会先匹配所有的元素，然后检查attribute
+这些是允许的</p>
+
+<pre><code>/* unqualified attribute selector is not key */
+.selected [type=text] a {
+    color: red;
+}
+</code></pre>
+
+<h3>3.6 Disallow units for zero values - 当值为0是不必写单位</h3>
+
+<p>没有必要，还可以省字节</p>
+
+<h3>3.7 Disallow overqualified elements - 不需要写没必要的元素</h3>
+
+<pre><code>div.mybox {
+    color: red;   
+}
+.mybox li.active {
+    background: red;
+}
+</code></pre>
+
+<p>这些允许的</p>
+
+<pre><code>/* Two different elements in different rules with the same class */
+li.active {
+    color: red;
+}
+p.active {
+    color: green;
+}
+</code></pre>
+
+<h3>3.8 Require shorthand properties - 要求使用简写</h3>
+
+<pre><code>.mybox {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 20px;
+    margin-bottom: 30xp
+}
+</code></pre>
+
+<p>如果只有2个，则允许，如</p>
+
+<pre><code>.mybox {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+</code></pre>
+
+<h3>3.9 Disallow duplicate background images - 禁止重复的background image</h3>
+
+<p>如</p>
+
+<pre><code>/* multiple instances of the same URL */
+.heart-icon {
+    background: url(sprite.png) -16px 0 no-repeat;
+}
+.task-icon {
+    background: url(sprite.png) -32px 0 no-repeat;
+}
+</code></pre>
+
+<p>建议使用</p>
+
+<pre><code>/* fallback color before newer format */
+.icons {
+    background: url(sprite.png) no-repeat;
+}
+.heart-icon {
+    background-position: -16px 0;
+}
+.task-icon {
+    background-position: -32px 0;
+}
+</code></pre>
+
+<h2>4. 可维护性</h2>
+
+<h3>4.1 Disallow too many floats - 禁止float超过10个</h3>
+
+<h3>4.2 Don't use too many font-size declarations - 禁止过多的font-size声明，不允许超过10个</h3>
+
+<h3>4.3 Disallow IDs in selectors - 为了提高代码重用，禁止使用id选择器</h3>
+
+<h3>4.4 Disallow !important - 禁用!importtant</h3>
+
+<h2>5. 提高可用性</h2>
+
+<h3>5.1 Disallow outline:none - 禁用 outline：none，某些用户需要outline来确定焦点</h3>
+
+<pre><code>/* no :focus */
+a {
+    outline: none;
+}
+/* no :focus */
+a {
+    outline: 0;
+}
+/* :focus but missing a replacement treatment */
+a:focus {
+    outline: 0;
+}
+</code></pre>
+
+<p>这些是可以的</p>
+
+<pre><code>/* :focus with outline: 0 and provides replacement treatment */
+a:focus {
+    border: 1px solid red;
+    outline: 0;
+}
+</code></pre>
+
+<h2>6. 其他准则</h2>
+
+<h3>6.1 Disallow qualified headings - 禁止指定特定的h1 ~ h6</h3>
+
+<pre><code>/* qualified heading */
+.box h3 {
+    font-weight: normal;
+}
+/* qualified heading */
+.item:hover h3 {
+    font-weight: bold;
+}
+</code></pre>
+
+<p>这样写是可以的</p>
+
+<pre><code>/* Not qualified */
+h3 {
+    font-weight: normal;
+}
+</code></pre>
+
+<h3>6.2 Headings should only be defined once - h1 ~ h6应该只定义1次</h3>
+
+<p>禁止这些</p>
+
+<pre><code>/* Two rules for h3 */
+h3 {
+    font-weight: normal;
+}
+.box h3 {
+    font-weight: bold;
+}
+</code></pre>
+
+<p>这些是可以的</p>
+
+<pre><code>/* :hover doesn't count */
+h3 {
+    font-weight: normal;
+}
+h3:hover {
+    font-weight: bold;
+}
+</code></pre>
+
+<h3>reference</h3>
+
+<ul>
+<li><a href="https://github.com/stubbornella/csslint/wiki">https://github.com/stubbornella/csslint/wiki</a></li>
+</ul>
+
+
+</div>
+
+
+            <div class="footer">
+              <div class="contact">
+                <div>lyuehh</div>
+                <div>programmer</div>
+                <div>lyuehh^gmail.com</div>
+              </div>
+              <div class="contact">
+                <a href="http://github.com/lyuehh/">github.com/lyuehh</a><br />
+                <a href="http://twitter.com/lyuehh/">twitter.com/lyuehh</a><br />
+                <a href="http://weibo.com/lyused/">weibo.com/lyused</a><br />
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- /container -->
+
+    </body>
+</html>

@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>读书笔记 - 正则指引</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/blog/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/blog/css/main.css">
+
+    </head>
+    <body>
+
+        <div class="container">
+          <div class="site">
+            <div class="header">
+              <h1 class="title"><a href="/blog/index.html">blog</a></h1>
+              <a class="extra" href="/blog/about.html">about</a>
+            </div>
+
+            <h2>读书笔记 - 正则指引</h2>
+<p class="meta">2013-06-12 09:59</p>
+
+<div id="post">
+<h1>第1章 字符组</h1>
+
+<h2>1.1 普通字符组</h2>
+
+<p>判断数字字符, <code>/[0123456789]/</code></p>
+
+<h3>python:</h3>
+
+<pre><code>import re
+re.search('[0123456789]', '0') != None
+</code></pre>
+
+<h3>javascript:</h3>
+
+<pre><code>/[0123456789]/.test('0');
+</code></pre>
+
+<h2>1.2 关于Python的基础知识</h2>
+
+<p>默认情况下<code>re.search</code>只判断string的某个子串是否能有pattern匹配，为了测试整个string是否能由pattern匹配，在pattern两端加上<code>^</code>和<code>$</code>，他们并不匹配任何字符，只是表示定位到字符串开始和字符串结束。</p>
+
+<h2>1.3 普通字符组(续)</h2>
+
+<p>字符组中的字符排列顺序不影响字符组的功能，出现重复字符也没有影响。</p>
+
+<h3>范围表示法：</h3>
+
+<ul>
+<li><code>[0-9]</code>等价与<code>[0123456789]</code></li>
+<li><code>-</code>的表示范围和码值有关，就是ASCII中字符的码值</li>
+<li>0 -> 48</li>
+<li>9 -> 57</li>
+<li>所以可以直接使用<code>[0-9]</code>，但不能使用<code>[9-0]</code></li>
+<li>a -> 97</li>
+<li>z -> 122</li>
+<li>A -> 65</li>
+<li>Z -> 90</li>
+<li><code>[0-z]</code>中有数字，标点符号，大写字母和小写字母</li>
+</ul>
+
+
+<h3>多个范围表示法</h3>
+
+<ul>
+<li>字符组中可以使用多个范围表示法，<code>[0-9a-zA-Z]</code>可以匹配数字，大写字母或者小写字母，</li>
+<li>字符组<code>[0-9a-fA-F]</code>可以匹配十六进制字符。</li>
+</ul>
+
+
+<h3>十六进制表示法</h3>
+
+<ul>
+<li><code>[\x00-\x7F]</code>可以匹配所有的ASCII字符</li>
+</ul>
+
+
+<h2>　1.4 元字符与转义</h2>
+
+<p>元字符如<code>-</code>，<code>[</code>，<code>]</code>等在正则表达式里有特殊的意义，如果想让他们表示普通字符，就需要用到转义。</p>
+
+<ul>
+<li><code>[-09]</code> -> - 0 9</li>
+<li><code>[0-9]</code> -> 0123456789</li>
+<li><code>[-0-9]</code> -> - 0123456789</li>
+</ul>
+
+
+<h3>原生字符串</h3>
+
+<ul>
+<li>不使用原生字符串: <code>re.search("^[0\\-9]$", "3") != None # =&gt; False</code></li>
+<li>使用原生字符串:   <code>re.search(r"^[0-9]$", "-")  != None # =&gt; True</code></li>
+<li><code>^[012]345]$ "2345" -&gt; True</code></li>
+<li><code>^[012]345]$ "5"-&gt; False</code></li>
+<li><code>^[012]345]$ "]" -&gt; False</code></li>
+<li><code>^[012\]345]$ "2345" -&gt; False</code></li>
+<li><code>^[012\]345]$ "5" -&gt; True</code></li>
+<li><code>^[012\]345]$ "]" -&gt; True</code></li>
+<li><code>^\[012]$ "[012]" -&gt; True</code></li>
+</ul>
+
+
+<h2>1.5 排除型字符组</h2>
+
+<p>排除型字符组非常类似普通字符组，写作<code>[^]</code>，比如<code>[^0-9]</code>表示非数字字符。</p>
+
+<ul>
+<li><code>^[^0-9][0-9]$ "A8" -&gt; True</code></li>
+<li><code>^[^0-9][0-9]$ "x6" -&gt; True</code></li>
+</ul>
+
+
+<h3>注意</h3>
+
+<p>在当前位置，匹配一个没有列出的字符和在当前位置，不要匹配列出的字符是不一样的，排除型字符组必须匹配一个字符。
+在排除型字符组中，<code>-</code>应该紧跟在<code>^</code>之后，而在普通字符组中，<code>-</code>应该紧跟在开方括号以后。</p>
+
+<ul>
+<li><code>^[^0-9][0-9]$ "8" -&gt; False</code></li>
+<li><code>^[^0-9][0-9]$ "x6" -&gt; True</code></li>
+<li><code>^[^-09]$ "-" -&gt; False</code></li>
+<li><code>^[^-09]$ "8" -&gt; True</code></li>
+<li><code>^[^0-9]$ "-" -&gt; True</code></li>
+<li><code>^[^0-9]$ "8" -&gt; False</code></li>
+</ul>
+
+
+<h2>　1.6 字符组简记法</h2>
+
+<ul>
+<li><code>\d == [0-9]</code> digit 数字</li>
+<li><code>\w == [0-9a-zA-Z_]</code> word 单词字符 *注意这里包含有下划线<code>_</code>*</li>
+<li><code>\s == [ \t\r\n\v\f]</code> space 空白字符</li>
+<li><code>[\da-zA-Z] == [0-9a-zA-Z]</code></li>
+<li><code>[^0-9] == [^\d]</code></li>
+<li><code>[^0-9a-zA-Z_] == [^\w]</code></li>
+<li><code>[^\d] == [\D]</code></li>
+<li><code>[^\w] == [\W]</code></li>
+<li><code>[^\s] == [\S]</code></li>
+<li><code>[\s\S]</code> 表示匹配任意字符</li>
+</ul>
+
+
+<h2>1.7 字符组运算</h2>
+
+<p>Java和.NET中提供，其他语言不支持。</p>
+
+<ul>
+<li><code>[[a-z] &amp;&amp; [^aeiou]]</code> Java写法</li>
+<li><code>[a-z-[aeiou]]</code> .NET写法</li>
+</ul>
+
+
+<h2>1.8 POSIZ字符组</h2>
+
+<p>不打算看。。。</p>
+
+<h1>第2章 量词</h1>
+
+<h2>2.1 一般形式</h2>
+
+<ul>
+<li><code>^\d\d\d\d$ == ^\d{3}$</code></li>
+<li><code>{n}</code> 之前的元素必须出现n次</li>
+<li><code>{m,n}</code> 之前的元素最少m次，最多出现n次</li>
+<li><code>{m,}</code> 之前的元素最少出现m次，最多无上限</li>
+<li><code>{0,n}</code> 之前的元素可以不出现，也可以出现，最多出现n次</li>
+</ul>
+
+
+<h2>　2.2 常用量词</h2>
+
+<ul>
+<li><code>*</code> == <code>{0,}</code> 可能出现，也可能不出现，出现次数没有上限</li>
+<li><code>+</code> == <code>{1,}</code> 至少出现1次，出现次数没有上限</li>
+<li><code>?</code> == <code>{0,1}</code> 至多出现1次，也可能不出现</li>
+</ul>
+
+
+<h3>例子</h3>
+
+<ul>
+<li><code>^travell?er "traveler" -&gt; True</code></li>
+<li><code>^travell?er "traveller" -&gt; True</code></li>
+<li><code>^&lt;[^&gt;]+&gt; "&lt;blod&gt;" -&gt; True</code></li>
+<li><code>^&lt;[^&gt;]+&gt; "&lt;/table&gt;" -&gt; True</code></li>
+<li><code>^&lt;[^&gt;]+&gt; "&lt;&gt; -&gt; False"</code></li>
+</ul>
+
+
+<h3>HTML tag</h3>
+
+<ul>
+<li><code>&lt;[^/][^&gt;]*&gt;</code> open tag: <code>&lt;b&gt; &lt;div&gt;</code></li>
+<li><code>&lt;/[^&gt;]+&gt;</code> close tag: <code>&lt;/b&gt; &lt;/div&gt;</code></li>
+<li><code>&lt;[^&gt;]+/&gt;</code> self close tag: <code>&lt;img /&gt; &lt;img src="/a.jpg" /&gt;</code></li>
+<li><code>&lt;[^&gt;]+&gt;</code> all the tag</li>
+</ul>
+
+
+<h2>2.3 数据提取</h2>
+
+<ul>
+<li><code>re.search(r"\d{6}", "ab123456cd").group(0) # =&gt; 123456</code></li>
+<li><code>re.search(r"^&lt;[^&gt;]+&gt;$", "&lt;blod&gt;").group(0) # =&gt; &lt;blod&gt;</code></li>
+<li><code>re.findall(r"\d{6}", "zipcode: 201203, zipcode: 100099") # =&gt; ["201203", "100099"]</code></li>
+</ul>
+
+
+<h2>2.4 点号</h2>
+
+<p>点号可以匹配任意字符，但是不能匹配换行符<code>\n</code>，如果想要匹配任意字符，可以：</p>
+
+<ol>
+<li>指定单行匹配模式</li>
+<li>使用自制的通配字符组<code>[\s\S]</code>，或者<code>[\d\D]</code>，或者<code>[\w\W]</code></li>
+</ol>
+
+
+<h3>例子</h3>
+
+<ul>
+<li><code>^.$ "\n" -&gt; False</code></li>
+<li><code>(?s)^.$ "\n" -&gt; True</code></li>
+<li><code>^[\s\S]$</code> "\n" -> True`</li>
+</ul>
+
+
+<h2>2.5 滥用点号的问题</h2>
+
+<p>匹配优先量词(贪婪量词): 在不确定是否要匹配时，先尝试匹配的选择</p>
+
+<ul>
+<li><code>".*"</code></li>
+<li><code>"[^"]*"</code></li>
+</ul>
+
+
+<h2>2.6 忽略优先量词</h2>
+
+<p>忽略优先量词(懒惰量词):在不确定是否要匹配时，先尝试不匹配的选择，先匹配到最近的</p>
+
+<ul>
+<li><ul>
+<li>*? 可能不出现，也可能出现，出现次数没有上限</li>
+</ul>
+</li>
+<li><ul>
+<li>+? 至少出现1次，出现次数没有上限</li>
+</ul>
+</li>
+<li>? ?? 至多出现1次，也可能不出现</li>
+<li>{m,n} {m,n}? 出现次数最少为m次，最多为n次</li>
+<li>{m,} {m,}? 出现次数最少为m次，最多没有上限</li>
+<li>{,n} {,n}? 可能不出现，也可能出现，最多出现n次</li>
+</ul>
+
+
+<h3>例子</h3>
+
+<h4>C语言中的注释</h4>
+
+<ul>
+<li>单行注释: <code>//.*</code></li>
+<li>多行注释: <code>/\*[\s\S]*?\*/</code></li>
+</ul>
+
+
+<h4>更多示例</h4>
+
+<ul>
+<li><code>&lt;a\s[\s\S]+?&lt;/a&gt;</code> HTML中的超链接</li>
+<li><code>&lt;script[\s&gt;][\s\S]+?&lt;/script&gt;</code> 匹配JavaScript的表达式</li>
+<li><code>&lt;table[\s&gt;][\s\S]+?&lt;/table&gt;</code> 匹配table</li>
+<li><code>&lt;tr[\s&gt;][\s\S]+?&lt;/tr&gt;</code> 匹配tr</li>
+<li><code>&lt;td[\s&gt;][\s\S]+?&lt;/td&gt;</code> 匹配td</li>
+<li><code>^.*/</code> 匹配linux路径 <code>/usr/local/bin/python -&gt; /usr/local/bin/</code></li>
+<li><code>[^/]*$</code> 匹配linux程序名 <code>/usr/local/bin/python -&gt; python</code></li>
+<li><code>^.*\\</code> 匹配windows路径</li>
+<li><code>[^\\]*$</code> 匹配windows程序名</li>
+</ul>
+
+
+<pre><code>##　匹配路径
+&gt;&gt;&gt; re.search(r"^.*/", "/usr/local/bin/python").group(0)
+'/usr/local/bin/'
+&gt;&gt;&gt; re.search(r".*/", "/usr/local/bin/python").group(0)
+'/usr/local/bin/'
+&gt;&gt;&gt; re.search(r".*?/", "/usr/local/bin/python").group(0)
+'/'
+&gt;&gt;&gt; re.search(r".+?/", "/usr/local/bin/python").group(0)
+'/usr/'
+&gt;&gt;&gt; re.search(r".??/", "/usr/local/bin/python").group(0)
+'/'   
+
+## 匹配程序名
+&gt;&gt;&gt; re.search(r"[^/]*$", "/usr/local/bin/python").group(0)
+'python'
+&gt;&gt;&gt; re.search(r"[^/]*?$", "/usr/local/bin/python").group(0)
+'python'
+&gt;&gt;&gt; re.search(r"[^/]+?$", "/usr/local/bin/python").group(0)
+'python'
+&gt;&gt;&gt; re.search(r"[^/]??$", "/usr/local/bin/python").group(0)  ？？
+'n' 
+</code></pre>
+
+<h2>2.7 转义</h2>
+
+<p>在正则表达式中，<code>+</code>，<code>*</code>，<code>?</code>等作为量词具有特殊意义，如果只希望表示这些字符本身，需要只用转义，在它们之前加上<code>\</code>即可。<code>{m,n}</code>的转义只需要写成<code>\{m,n}</code>即可。忽略优先量词则需要将2个量词全部转义，<code>*?</code>必须要写成<code>\*\?</code>。</p>
+
+<h1>第3章 括号</h1>
+
+<h2>3.1 分组</h2>
+
+<h3>身份证号码的匹配</h3>
+
+<ul>
+<li><code>[1-9]\d{13,16}[0-9x]</code> 错误</li>
+<li><code>[1-9]\d{14}(\d{2}[0-9x])?</code> 正确</li>
+</ul>
+
+
+<h3>匹配13或16位的数字</h3>
+
+<ul>
+<li><code>\d{13,16}</code> 错误</li>
+<li><code>\d{13}(\d{3})?</code> 正确</li>
+</ul>
+
+
+<h3>匹配HTML open tag</h3>
+
+<ul>
+<li><code>&lt;[^/][^&gt;]*[^/]&gt;</code> 错误，会错过 <code>&lt;u&gt;</code> 这种形式</li>
+<li><code>&lt;[^/]([^&gt;]*[^/])?&gt;</code>  正确</li>
+</ul>
+
+
+<h3>匹配URL "/foo"或"/foo/bar.php"或"/foo/bar_qux.php"</h3>
+
+<ul>
+<li><code>/[a-z]+/?[a-z]*_?[a-z]*(\.php)?</code> 错误</li>
+<li><code>/[a-z]+(/[a-z]+(_[a-z]+)?\.php)?</code> 正确</li>
+</ul>
+
+
+<h3>Email地址</h3>
+
+<ul>
+<li><code>^[-\w.]{0,64}@([-a-zA-Z0-9]{1,63}\.)*[-a-zA-Z0-9]{1,63}$</code></li>
+</ul>
+
+
+<h2>3.2 多选结构</h2>
+
+<h3>身份证号码的匹配</h3>
+
+<ul>
+<li><code>[1-9]\d{14}(\d{2}[0-9x])?</code> 正确</li>
+<li><code>([1-9]\d{14}|[1-9]\d{14}\d{2}[0-9x])</code> 正确，采用多选结构</li>
+</ul>
+
+
+<h3>匹配IPV4的地址</h3>
+
+<ul>
+<li><code>^([0-9]|[0-9]{2}|1[0-9][0-9][0-9]|2[0-4][0-9]|25[0-5])$</code></li>
+<li><code>^((00)?[0-9]|0?[0-9]{2}|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$</code> 可以匹配005，020这样的数值</li>
+<li>re.search(r"^((00)?[0-9]|0?[0-9]{2}|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$", "02") 这个也能匹配 ？？恩，是<code>0?[0-9]{2}</code>这个匹配到的</li>
+<li>re.search(r"^((00)?[0-9])$", "02") 这个是不匹配的</li>
+<li>re.search(r"^0?[0-9]{2}$", "02") 这个是匹配的</li>
+</ul>
+
+
+<h3>匹配月，日，小时，分钟</h3>
+
+<ul>
+<li><code>(0?[1-9]|1[012])</code> 月 01-12</li>
+<li><code>(0?[1-9]|[12]\d|3[01])</code> 日 01-31</li>
+<li><code>(0?[1-9]|[01]\d|2[0-4])</code> 小时 01-24</li>
+<li><code>(0?[1-9]|[1-5]\d|60)</code> 分钟01-60 闰秒？</li>
+</ul>
+
+
+<h3>大陆的电话号码</h3>
+
+<ul>
+<li><code>(0|\+86)?(13[0-9]|15[0-356]|18[025-9])\d{8}</code></li>
+</ul>
+
+
+<h3>准确的HTML tag匹配</h3>
+
+<ul>
+<li><code>&lt;('[^']*'|"[^"]*"|[^'"])+&gt;</code></li>
+</ul>
+
+
+<h3>注意</h3>
+
+<ol>
+<li>没有括号的多选结构，<code>^ab|cd$</code> 字符串开头的ab或字符串结尾的cd，而不是只包含ab或cd的字符串</li>
+<li>多选分支并不等于字符组，分支更麻烦，效率不高，不能表示无法匹配的字符，但是分支可以写的很复杂，字符组可能不能满足需求</li>
+<li>多选分支的排列是由讲究的，当几个分支都可以匹配时，结果可能会不同</li>
+</ol>
+
+
+<h2>3.3 引用分组</h2>
+
+<p>捕获型分组，分组编号取决于开括号出现的顺序</p>
+
+<h3>提取日期</h3>
+
+<ul>
+<li><code>(\d{4})-(\d{2})-(\d{2})</code> "2010-01-22" group(1) -> 2010 group(2) -> 01 group(3) -> 22</li>
+</ul>
+
+
+<h3>更多示例</h3>
+
+<ul>
+<li><code>&lt;a\s+href\s*=\s*["']?([^"'\s]+)["']?&gt;([^&lt;]+)&lt;/s&gt;</code> 提取超链接</li>
+<li><code>&lt;head&gt;([^&lt;]+)&lt;/head&gt;</code> 提取网页标题</li>
+<li><code>&lt;img\s+[^&gt;]*?src=["']?([^"'\s]+)["']?[^&gt;]*&gt;</code> 提取图片链接</li>
+</ul>
+
+
+<h3>注意</h3>
+
+<ul>
+<li><code>(\d{4})-(\d{2})-(\d{2})</code> 2010-12-22 group(1) -> 2010</li>
+<li><code>(\d){4}-(\d{2})-(\d{2})</code> 2010-12-22 group(1) -> 0</li>
+</ul>
+
+
+<h3>在正则表达式中使用替换</h3>
+
+<ul>
+<li><code>[a-z]</code> ("1a2b3c"," ") -> 1 2 3</li>
+<li><code>(\d{4})-(\d{2})-(\d{2})</code> ("2010-12-22", r"\2/\3/\1") -> 12/22/2010</li>
+<li><code>(\d{4})-(\d{2})-(\d{2})</code> ("2010-12-22", r"\1年/\2月/\3日") -> 2010年12月22日</li>
+</ul>
+
+
+<blockquote><p>注意不能使用\0，如果要引用整个正则表达式匹配的文本，可以包一个大括号然后使用\1</p></blockquote>
+
+<h2>3.3.1 反向引用</h2>
+
+<p>使用<code>\1</code>等来使用反向引用。</p>
+
+<ul>
+<li><code>^([a-z])\1$</code> "aa" True</li>
+<li><code>^([a-z])\1$</code> "dd" True</li>
+<li><code>^([a-z])\1$</code> "ac" False</li>
+</ul>
+
+
+<h3>匹配成对的tag</h3>
+
+<ul>
+<li><code>&lt;([^&gt;]+)&gt;[\s\S]*?&lt;/\1&gt;</code></li>
+</ul>
+
+
+<h2>3.3.2 各种引用的记法</h2>
+
+<p>表达式中的反向引用出javaScript是<code>$num</code>外，.NET, Java, PHP, Python, Ruby都是<code>\num</code>，替换中的.NET, Java, Javascript是<code>$num</code>， PHP, Python, Ruby都是<code>\num</code>。</p>
+
+<h3>注意</h3>
+
+<ul>
+<li><code>$0</code>可以表示第0个分组(也就是整个表达式匹配的文本)，但是<code>\0</code>不行</li>
+<li><code>\10</code>是表示第10个捕获分组，还是第1个捕获分组后跟着字符0？</li>
+<li>Python中表示第10个分组，如果想要表示后一种，则可以使用<code>\g&lt;num&gt;0</code></li>
+<li>PHP使用<code>\${num}</code>和<code>\${num}0</code>解决这个问题</li>
+<li>Java, Ruby, JavaScript中，如果确实存在第10个捕获分组，则<code>\10</code>引用此捕获分组的文本，否则认为是后一种</li>
+<li>上面的方式无法解决这类问题：存在编号为10的分组，无法用<code>\10</code>表示编号为1的分组和字符0</li>
+</ul>
+
+
+<h2>3.3.3 命名分组</h2>
+
+<ul>
+<li><code>(?P&lt;year&gt;\d{4})-(?P&lt;month&gt;\d{2})-(?P&lt;day&gt;\d{2})</code> "2012-01-22" .group('year') -> 2012</li>
+</ul>
+
+
+<h3>不同语言中命名分组的记法</h3>
+
+<pre><code>语言     分组记法         反向引用记法     替换时的引用记法
+.NET    (?&lt;name&gt;...)    \k&lt;name&gt;       ${name}
+PHP     (?P&lt;name&gt;...)   (?P=name)      不支持，只能用${num}
+Python  (?P&lt;name&gt;...)   (?P=name)      \g&lt;name&gt;
+Ruby    (?P&lt;name&gt;...)    \k&lt;name&gt;      \k&lt;name&gt;
+</code></pre>
+
+<h2>3.4 非捕获分组</h2>
+
+<p>括号的作用：</p>
+
+<ol>
+<li>分组，将相关的元素归拢到一起，构成单个元素</li>
+<li>多选结构，规定可能出现的多个子表达式</li>
+<li>引用分组，将子表达式匹配的文本存储起来，供之后使用</li>
+</ol>
+
+
+<p>非捕获分组：<code>(?:)</code>，只限定量词的作用范围，不捕获任何文本</p>
+
+<ul>
+<li><code>(\d{4})-(\d{2})-(\d{2})</code> "2012-12-11" .group(2) -> 12</li>
+<li><code>(?:\d{4})-(\d{2})-(\d{2})</code> "2012-12-11" .group(1) -> 12</li>
+</ul>
+
+
+<h2>3.5 补充</h2>
+
+<h3>转义:</h3>
+
+<ol>
+<li><code>+</code>, <code>*</code>, <code>?</code> -> <code>\+</code>, <code>\*</code>, <code>\?</code></li>
+<li><code>{6}</code>, <code>[a-z]</code> -> <code>\{6}</code>, <code>\[a-z]</code></li>
+<li><code>(|)</code> -> <code>\(\|\)</code></li>
+</ol>
+
+
+<h3>URL Rewrite</h3>
+
+<p>IIS:</p>
+
+<ul>
+<li>"^blog/([0-9]{4})/([0-9]{2})/?$"</li>
+<li>"blog/post.php?year={R:1}&amp;month={R:2}"</li>
+</ul>
+
+
+<p>Apache:</p>
+
+<ul>
+<li>RewriteEngine on</li>
+<li>RewriteRule ^blog/([0-9]{4})/([0-9]{2})/?$ blog/post.php?year=$1&amp;month=$2 [L]</li>
+</ul>
+
+
+<p>nginx:</p>
+
+<ul>
+<li>rewrite ^blog/([0-9]{4})/([0-9]{2})/?$ blog/post.php?year=$1&amp;month=$2 last;</li>
+</ul>
+
+
+<h3>一个例子</h3>
+
+<ul>
+<li><code>(\w+\.?)+</code>  "aaa.bbb.ccc" ["ccc"]</li>
+<li><code>(\w+\.?)+?</code> "aaa.bbb.ccc" ['aaa.', 'bbb.', 'ccc']</li>
+</ul>
+
+
+<h1>第4章 断言</h1>
+
+<p>结构匹配的文本不真正匹配文本，只负责判断在某个位置左/右侧的文本是否符合要求，这种结构被称为断言。常见的断言有3类，单词边界，行起始/结束位置，环视。</p>
+
+<h2>4.1 单词边界</h2>
+
+<ul>
+<li>单词边界记为<code>\b</code></li>
+<li>单词边界并不区分左右</li>
+<li>单词字符要求"另一边不是单词字符"，而不是"另一边的字符不是单词字符"</li>
+<li>单词字符是<code>\w</code>能匹配的字符，就是<code>[a-zA-z0-9_]</code></li>
+<li><code>\b\w+\b</code>即可匹配英文单词</li>
+<li>非单词边界<code>\B</code></li>
+</ul>
+
+
+<pre><code>print re.sub(r"\brow\b", r"&lt;span class=\"h1\"&gt;\g&lt;0&gt;&lt;/span&gt;", "a string row, haha")
+</code></pre>
+
+<h2>4.2 行起始/结束位置</h2>
+
+<ul>
+<li>多行模式 <code>(?m)</code></li>
+<li>提取每行的第1个单词 <code>(?m)^\w+</code></li>
+<li>只匹配整个字符串的起始位置 <code>(?m)\A\w+</code></li>
+<li>行起始符 <code>^</code></li>
+<li>行结束符 <code>$</code></li>
+<li>匹配最后一个单词 <code>\w+$</code></li>
+<li>\Z和\z不受多行模式的影响，在任何情况下都匹配整个字符串的结束位置</li>
+<li>\Z等价于默认模式(非多行模式)下的$，如果字符串末尾有行终止符，则它匹配换行符之前的位置</li>
+<li>\z则不管行终止符，只匹配整个字符串的结束位置</li>
+<li>^和$, \A和\z</li>
+<li>Python不支持\z，但是Python的\Z等价于其他语言的\z</li>
+<li>JavaScript没有\A,\z,\Z,只有^和$，其中$只能匹配字符串/行的结束位置</li>
+<li>去除行首空白 <code>(?m)^\s+</code></li>
+<li>去除行尾空白 <code>(?m)\s+$</code></li>
+<li>不能使用多选结构，<code>(^\s+|\s+$)</code>，它会合并多个行什么的。。</li>
+<li>JavaScript的$匹配的是行尾，不能匹配末尾行终止符之前的那个位置</li>
+</ul>
+
+
+<h3>多行文本替换</h3>
+
+<pre><code>plainText = "line1\nline2\nline3"
+print re.sub(r"(?m)$", "&lt;/p&gt;", re.sub(r"(?m)^","&lt;p", plainText))
+</code></pre>
+
+<h2>4.3 环视</h2>
+
+<ul>
+<li><code>(?!/)</code> 当前位置之后(右侧)，不能出现/能匹配的文本</li>
+<li><code>(?&lt;!/)</code> 当前位置之前(左侧)，不能出现/能匹配的文本</li>
+<li>html open tag <code>&lt;(?!/)('[^']*'|"[^"]*"|[^'"&gt;])+(?&lt;!/)&gt;</code></li>
+</ul>
+
+
+<pre><code>名字                    判断方向
+肯定顺序环视       (?=...)
+否定顺序环视       (?!…)
+肯定逆序环视       (?&lt;=…)
+否定逆序环视       (?&lt;!…)
+</code></pre>
+
+<ul>
+<li>123456 -> 123,456 <code>(?&lt;=\d)(?=(\d{3})+(?!\d))</code></li>
+<li>去掉中英文混排中的空白字符 <code>(?&lt;![a-zA-z])\s+(?![a-zA-Z])</code></li>
+</ul>
+
+
+<h2>4.4 补充</h2>
+
+<h3>4.4.1 环视的价值</h3>
+
+<ul>
+<li>open tag <code>&lt;(?!/)[^&gt;]+(?&lt;!/)&gt;</code></li>
+<li>邮政编码 <code>(?&lt;!\d&gt;)\d{6}(?!\d)</code></li>
+<li>辅音字母 <code>(?![aeiou])[a-z]</code></li>
+</ul>
+
+
+<h3>4.4.2 环视与分组编号</h3>
+
+<ul>
+<li>环视中出现了捕获型括号，会影响分组</li>
+</ul>
+
+
+<h3>4.4.3 环视的支持程度</h3>
+
+<ul>
+<li>JavaScript和ruby 1.8 不支持逆序环视</li>
+<li>其他语言支持顺序环视，但是对逆序环视支持都有限制，除了.NET</li>
+</ul>
+
+
+<h3>4.4.4 环视的组合</h3>
+
+<ul>
+<li>环视中包含环视</li>
+<li>并列多个环视 <code>(^(?=\d+)(?!999))</code> 之后是数字，但是不能是999</li>
+<li>环视作为多选分支排列在多选结构中 <code>^((?!\d)|(?=\d\D))</code> 要么不是数字字符，要么是一个数字字符和一个非数字字符</li>
+</ul>
+
+
+<h3>4.4.5 断言和反向引用之间的关系</h3>
+
+<ul>
+<li>反向引用时不会保留断言的判断</li>
+</ul>
+
+
+<h1>第5章 匹配模式</h1>
+
+<p>匹配模式就是匹配时使用的规则，常用的匹配模式有4中，不区分大小写模式，单行模式，多行模式和注释模式。</p>
+
+<h2>5.1 不区分大小写模式</h2>
+
+<h3>5.1.1 模式的指定方式</h3>
+
+<ul>
+<li><code>(?i)the</code> 模式修饰符 JavaScript不支持</li>
+<li><code>re.I</code> 预定义常量</li>
+</ul>
+
+
+<pre><code>
+.NET  RegexOPtions.IgnoreCase
+Java Pattern.CASE_INSENSTIVE
+JavaScript /regex/i
+PHP /regex/i
+Python re.I, re.IGNORECASE
+Ruby Regexp::IGNORECASE, /regex/i
+</code></pre>
+
+<h2>5.2 单行模式</h2>
+
+<p>单行模式影响的是点号的匹配规则，在默认模式下，点号可以匹配除换行符之外的任何字符，在单行模式下，点号也可以匹配换行符。</p>
+
+<ul>
+<li>(?s)</li>
+<li>.NET RegexOptions.Singleline</li>
+<li>Java Pattern.DOTALL</li>
+<li>JavaScript 不支持此模式</li>
+<li>PHP /regex/s</li>
+<li>Python re.S re.DOTALL</li>
+<li>Ruby Regexp::MULTILINE /regex/m</li>
+</ul>
+
+
+<h2>5.3 多行模式</h2>
+
+<p>多行模式影响的是<code>^</code>和<code>$</code>的匹配，早默认模式下，<code>^</code>和<code>$</code>匹配的是整个字符串的起始位置和结束为止，但在多行模式下，它们也能匹配字符串内部某一行文本的起始位置和结束为止。</p>
+
+<ul>
+<li>匹配数字开头的行 <code>(?m)^\d.*</code></li>
+</ul>
+
+
+<h2>5.4 注释模式</h2>
+
+<ul>
+<li>语法 <code>(?#comment)</code></li>
+<li>Java和JavaScript不支持</li>
+<li>x模式，(eXtended mode)</li>
+<li>使用多个模式，使用<code>|</code>运算法，如<code>Pattern.COMMENTS | Pattern.MULTILINE</code></li>
+</ul>
+
+
+<h2>5.5 补充</h2>
+
+<h3>5.5.1 更多的模式</h3>
+
+<ul>
+<li>Java <code>Pattern.UNIX_LINES</code>和<code>Pattern.CANON_EQ</code></li>
+<li>Python <code>re.U</code>和<code>re.A</code></li>
+</ul>
+
+
+<h3>5.5.2 修饰符的作用范围</h3>
+
+<ul>
+<li>出现在最开头，则表示整个正则表达式都指定此模式</li>
+<li>出现在之中，则表示此模式从这里开始生效</li>
+</ul>
+
+
+<h3>5.5.3 失效修饰符</h3>
+
+<ul>
+<li><code>(?-modifer)</code> 某个模式生效到此处为止 Python和JavaScript不支持</li>
+<li><code>((?i)foo|zero)BAR</code></li>
+<li><code>(?i)(foo|zee)(?-i)BAR</code></li>
+</ul>
+
+
+<h3>5.5.4 模式与反向引用</h3>
+
+<p>Python中无法限定模式的作用范围，这里以Java为例。</p>
+
+<ul>
+<li><code>((?i)abc)\\1</code> abcABC false</li>
+<li><code>(?i)(abc)\\1</code> abcABC true</li>
+<li><code>((?s)a.)\\1</code> a\na\n true</li>
+<li><code>(?s)(a.)\\1</code> a\na\n true</li>
+<li><code>((?m)^a).\\1</code> abs true</li>
+<li><code>(?m)(^a).\\1</code> abba true</li>
+</ul>
+
+
+<h3>5.5.5 冲突策略</h3>
+
+<p>Java中，模式修饰符具有更高的优先级</p>
+
+<h3>5.5.6 哪种方式更好</h3>
+
+<h1>第6章 其他</h1>
+
+<h2>6.1 转义</h2>
+
+<h3>6.1.1 字符串转义与正则转义</h3>
+
+<pre><code>字符串文字  字符串/正则文字 正则表达式
+\\n                    \n                    回车
+\\t                    \t                    tab
+\\\\                    \\                    \
+</code></pre>
+
+<ul>
+<li>\b 退格符</li>
+<li>\b \b 单词边界</li>
+<li>尽量使用原生字符串或者正则文字</li>
+<li>反斜线/ 在字符串文字中必须写成\</li>
+</ul>
+
+
+<h3>6.1.2 元字符的转义</h3>
+
+<pre><code>记法          转义          说明
+[]               \[]               只对开括号转义
+.               \.               
+-               \-               [a\-b]等价于[-ab]
+*                \*
++               \+
+?               \?
+*?               \*\?
++?               \+\?
+??               \?\?
+</code></pre>
+
+<p>(…)               (...)          开，闭括号都需要转义
+|                     |
+(…|…)               (…|…)
+^                    ^
+$                    \$
+$num               \$或$$
+```</p>
+
+<h3>6.1.3 彻底消除元字符的特殊含义</h3>
+
+<ul>
+<li><code>\Qca*t\E</code> 只有Java和PHP支持</li>
+<li>其他语言支持<code>escape</code>方法或<code>quote</code>方法，除JavaScript外</li>
+</ul>
+
+
+<h3>6.1.4 字符组的转义</h3>
+
+<ul>
+<li>字符组里，<code>]</code>, <code>-</code>, <code>^</code>需要转义</li>
+</ul>
+
+
+<h2>6.2 正则表达式的处理形式</h2>
+
+<h3>6.2.1 函数式处理</h3>
+
+<p>调用对应函数，将正则表达式和字符串作为参数传入即可。比如Python和PHP。</p>
+
+<h3>6.2.2 面向对象式处理</h3>
+
+<p>生成正则表达式对象，调用对象的成员函数。比如Java和.NET。</p>
+
+<h3>6.2.3 比较</h3>
+
+<ul>
+<li>面向对象式：步骤分明，效率更高</li>
+<li>函数式：方便，代码简洁</li>
+</ul>
+
+
+<h3>6.2.4 线程安全性</h3>
+
+<ul>
+<li>正则表达式对象和匹配结果对象</li>
+<li>多个线程可以共享一个正则表达式对象，但操作不同的文本时，对应每个线程生成专属的匹配结果对象</li>
+</ul>
+
+
+<h2>6.3 表达式中的优先级</h2>
+
+<h3>4种组合关系</h3>
+
+<ul>
+<li>普通拼接 abc</li>
+<li>括号 (abc)</li>
+<li>量词 a*b</li>
+<li>多选结构 ab|cd</li>
+</ul>
+
+
+<h3>优先级</h3>
+
+<ol>
+<li>(regex) 整个括号里的子表达式成为单个元素</li>
+<li><ul>
+<li>? + 限定之前紧邻的元素</li>
+</ul>
+</li>
+<li>abc 普通拼接，元素相继出现</li>
+<li>a|bc 多选结构</li>
+</ol>
+
+
+<h1>第7章 Unicode</h1>
+
+<h2>7.1 关于编码</h2>
+
+<ul>
+<li>ASCII字符</li>
+<li>非ASCII字符</li>
+</ul>
+
+
+<h2>7.2 推荐使用Unicode编码</h2>
+
+<p>略。。</p>
+
+<h2>7.3 Unicode匹配规则</h2>
+
+<ul>
+<li>ASCII匹配规则</li>
+<li>Unicode匹配规则</li>
+</ul>
+
+
+<h2>7.4 单词边界</h2>
+
+<ul>
+<li>Unicode中的单词边界</li>
+</ul>
+
+
+<h2>7.5 码值</h2>
+
+<h3>发(53d1)的表示方法</h3>
+
+<pre><code>
+语言     表示法
+.NET      \u53d1
+Java       \u53d1
+JavaScript \u53d1
+Python     \u53d1
+PHP          \x{53d1}
+Ruby         \u{53d1}
+</code></pre>
+
+<h3>汉字的表示</h3>
+
+<ul>
+<li>[\u4e00-\u9fff] Unicode环境</li>
+<li>[\xb0-\xfe][\x00-\xff] gbk环境</li>
+</ul>
+
+
+<h2>7.6 Unicode属性</h2>
+
+<ul>
+<li>Unicode Property 字符的功能</li>
+<li>Unicode Block 所属代码区段</li>
+<li>Unicode Script 书写系统</li>
+</ul>
+
+
+<h2>7.7 Unicode属性列表</h2>
+
+<p>略</p>
+
+<h2>7.8 POSIX字符串</h2>
+
+<p>略</p>
+
+<h1>第8章 匹配原理</h1>
+
+<h2>8.1 有穷自动机</h2>
+
+<p>必须满足的4个条件：</p>
+
+<ol>
+<li>具有有限多个状态</li>
+<li>有一套状态转移函数(规则)</li>
+<li>有一个开始状态</li>
+<li>有一个或多个最终状态</li>
+</ol>
+
+
+<h2>8.2 正则表达式的匹配过程</h2>
+
+<ul>
+<li>确定型有穷自动机 DFA</li>
+<li>非确定型有穷自动机 NFA</li>
+</ul>
+
+
+<h2>8.3 回溯</h2>
+
+<h2>8.4 NFA和DFA</h2>
+
+<h2>第9章 常见问题的解决思路</h2>
+
+<h2>9.1 关于元素的3中逻辑</h2>
+
+<h3>9.1.1 必须出现</h3>
+
+<ul>
+<li>tag中，必须出现的字符是<code>&lt;</code>和<code>&gt;</code></li>
+<li>Email地址中，必须出现的是<code>@</code></li>
+</ul>
+
+
+<h3>9.1.2 可能出现</h3>
+
+<ol>
+<li>使用量词</li>
+<li>使用字符组或者多选结构</li>
+<li>匹配数字字符： <code>(+?(\d+|\.\d+|\d+\.\d+)|-?(\d+|\d+\.\d+))</code></li>
+</ol>
+
+
+<h3>9.1.3 不能出现</h3>
+
+<ul>
+<li>双引号：<code>"[^"]*"</code></li>
+<li>html tag：<code>[^/][^&gt;]*</code></li>
+<li>邮件地址：<code>\A\w([-\w.](?!\.\.)){0,63}\Z</code></li>
+</ul>
+
+
+<h2>9.2 正则表达式的常见操作</h2>
+
+<h3>9.2.1 提取</h3>
+
+<p>完成，精确，效率</p>
+
+<h3>9.2.2 验证</h3>
+
+<p>返回true和false即可</p>
+
+<h3>9.2.3 替换</h3>
+
+<p>使用字符串或者replacement函数</p>
+
+<h3>9.2.4 切分</h3>
+
+<p>将字符串切分为数组</p>
+
+<h2>9.3 正则表达式优化建议</h2>
+
+<h3>9.3.1 使用缓存</h3>
+
+<p>保存为变量，避免重复编译</p>
+
+<h3>9.3.2 尽量准确表达意图</h3>
+
+<p>使用最合适(专用)的结构</p>
+
+<h3>9.3.3 避免重复匹配</h3>
+
+<ul>
+<li>避免<code>a+a+</code>，<code>[0-9]+\w+</code>等表达式</li>
+<li>凡类似<code>regex1*regex2</code>的表达式，避免<code>regex1</code>和<code>regex2</code>能匹配相同的内容</li>
+<li>凡类似<code>(reg1|reg2)</code>的表达式，避免<code>reg1</code>和<code>reg2</code>能匹配相同的内容</li>
+</ul>
+
+
+<h3>9.3.4 独立出文本和描点</h3>
+
+<ul>
+<li>提取出普通的字符串，可以提高效率</li>
+<li>将量词，文本，多选分支中的重复部分提取出来</li>
+</ul>
+
+
+<h2>9.4 别过分依赖正则表达式</h2>
+
+<h3>9.4.1 彻底的放弃字符串操作</h3>
+
+<p>使用<code>startwith</code>，<code>endwith</code>等方法</p>
+
+<h3>9.4.2 思维定势</h3>
+
+<p>不一定非要用正则表达式</p>
+
+<h3>9.4.3 正则表达式不能完成所有的任务</h3>
+
+<p>使用正则表达式和其他手段配合解决问题</p>
+
+<h1>第12章 JavaScript</h1>
+
+<h2>12.1 预备知识</h2>
+
+<p><code>/\d/.test("1")</code> true</p>
+
+<h2>12.2 正则功能详解</h2>
+
+<h3>12.2.1 列表</h3>
+
+<p>略</p>
+
+<h3>12.2.2 字符组</h3>
+
+<p><code>[]</code></p>
+
+<h3>12.2.3 字符组简记法</h3>
+
+<p><code>\d</code>, <code>\D</code>, <code>\w</code>, <code>\W</code>, <code>\s</code>, <code>\S</code> 均采用ASCII匹配规则</p>
+
+<h3>12.2.4 单词边界</h3>
+
+<p><code>\b</code>匹配成功只有1中情况，一边必须保证<code>\w</code>匹配成功，一边必须保证<code>\w</code>匹配不成功</p>
+
+<h3>12.2.5 行起始/结束位置</h3>
+
+<ul>
+<li><code>^</code>指定行起始位置，多行模式(m)下，<code>^</code>可以匹配字符串内部的文本行的开始位置 <code>/^2/m.test("1\n2")</code> true</li>
+<li><code>$</code>同理，<code>/1$/m.test("1\n2")</code> true</li>
+</ul>
+
+
+<h3>12.2.6 环视</h3>
+
+<ul>
+<li>JavaScript1.5之后均支持肯定顺序环视(?=...)和否定顺序环视(?!...)</li>
+<li>不支持肯定逆序环视和否定逆序环视</li>
+</ul>
+
+
+<h3>12.2.7 匹配模式</h3>
+
+<ul>
+<li>支持不区分大小写模式(i)和多行模式(m)</li>
+<li>因为不支持单行模式，所以点号在任何情况下都不能匹配换行符，可以使用<code>[\s\S]</code>或<code>[\d\D]</code></li>
+</ul>
+
+
+<h3>12.2.8 捕获分组的引用</h3>
+
+<ul>
+<li>内部使用<code>\num</code>记法</li>
+<li>替换时使用<code>$num</code>记法</li>
+<li>若要在内部表示$字符，则需转义为$$</li>
+</ul>
+
+
+<h3>12.3 正则API简介</h3>
+
+<h3>12.3.1 RegExp</h3>
+
+<ul>
+<li><code>/regexp/</code>或者<code>new RegExp()</code></li>
+<li><code>RegExp.souce</code> 只读，保存文本形式的表达式</li>
+<li><code>RegExp.global</code> 只读，是否指定了全局模式</li>
+<li><code>RegExp.ignoreCase</code> 只读，是否指定了多行模式</li>
+<li><code>RegExp.multiline</code> 只读，是否指定了多行模式</li>
+<li><code>RegExp.lastIndex</code> 可写变量，如果使用了全局模式，这个变量保存的是在字符串中尝试下次匹配的偏移值，在<code>RegExp.tesst()</code>和<code>RegExp.exec()</code>中都会用到这个变量</li>
+</ul>
+
+
+<h4>12.3.1.1 RegExp.exec(string)</h4>
+
+<ul>
+<li>在字符串中寻找匹配，如果成功，则返回表示匹配信息的数组，否则返回null。</li>
+<li>如果不指定全局模式，将if语句改为while语句，那么每次调用<code>RegExp.exec()</code>都会从字符串起始位置开始尝试匹配，结果会造成无穷循环。</li>
+<li>如果不把正则表达式保存在一个变量中，则每次都会重新生成，使用while语句同样会造成死循环</li>
+</ul>
+
+
+<h4>12.3.1.2 RegExp.test(string)</h4>
+
+<ul>
+<li>返回布尔值表示是否在字符串中找到了匹配</li>
+<li><code>RegExp.test(string)</code>匹配成功之后，各捕获分组的文本已经保存了下来，用<code>RegExp.$1</code>，<code>RegExp..$2</code>等就可以获得</li>
+</ul>
+
+
+<h3>12.3.2 String</h3>
+
+<h4>12.3.2.1 string.match(RegExp)</h4>
+
+<ul>
+<li>该方法类似<code>RegExp.exec(string)</code></li>
+<li>在指定了全局模式下，该方法返回一个字符串数组，包含各次成功匹配的文本，不包含其他信息</li>
+<li>即使正则表达式中包含捕获分组，该方法返回的数组中，也不包含分组捕获的信息</li>
+</ul>
+
+
+<h4>12.3.2.2 string.search(RegExp)</h4>
+
+<ul>
+<li>这个方法用来寻找某个正则表达式在字符串中第一次出现匹配成功的位置，不成功返回-1</li>
+<li>只能找到第一次匹配的位置，即使指定了全局模式，结果也不会有任何变化</li>
+</ul>
+
+
+<h4>12.3.2.3 string.replace(RegExp, replacement)</h4>
+
+<ul>
+<li>将RegExp能替换的文本替换为replace</li>
+<li>默认只进行一次替换，使用全局模式(g)，将全部替换</li>
+<li><code>$num</code> 表示对应捕获分组匹配的文本, <code>$$</code> 表示$字符, <code>$`` 正则表达式所匹配文本之前(左侧)的文本,</code>$'` 正则表达式所匹配文本之后(右侧)的文本</li>
+</ul>
+
+
+<h4>12.3.2.4 string.replace(RegExp, function)</h4>
+
+<ul>
+<li>function是一个函数，参数是匹配的文本</li>
+</ul>
+
+
+<h4>12.3.2.5 string.split(RegExp)</h4>
+
+<ul>
+<li>使用正则表达式切分字符串，是否使用全局模式对结果没影响</li>
+<li>可以设置第2个参数limit，指定返回数组的数目</li>
+</ul>
+
+
+<h2>12.4 常用操作示例</h2>
+
+<p>略。。</p>
+
+<h2>12.5 ActionScript</h2>
+
+<p>略。。</p>
+
+</div>
+
+
+            <div class="footer">
+              <div class="contact">
+                <div>lyuehh</div>
+                <div>programmer</div>
+                <div>lyuehh^gmail.com</div>
+              </div>
+              <div class="contact">
+                <a href="http://github.com/lyuehh/">github.com/lyuehh</a><br />
+                <a href="http://twitter.com/lyuehh/">twitter.com/lyuehh</a><br />
+                <a href="http://weibo.com/lyused/">weibo.com/lyused</a><br />
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- /container -->
+
+    </body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>coreutils的106个命令都是做什么的</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/blog/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/blog/css/main.css">
+
+    </head>
+    <body>
+
+        <div class="container">
+          <div class="site">
+            <div class="header">
+              <h1 class="title"><a href="/blog/index.html">blog</a></h1>
+              <a class="extra" href="/blog/about.html">about</a>
+            </div>
+
+            <h2>coreutils的106个命令都是做什么的</h2>
+<p class="meta">2013-06-22 18:22</p>
+
+<div id="post">
+<h2>说明</h2>
+
+<p>以下命令是GNU系列的，BSD系列下面可能有的命令没有，并且参数可能还有些许差异，请参考它们自己的manpage。</p>
+
+<ul>
+<li>base64 base64编码解码，gun -d解码, BSD -D解码</li>
+<li><p>basename 从字符串中提取出程序名，去掉路径, -s 指定后缀</p></li>
+<li><p>cat 输出文件内容到标准输出</p></li>
+<li>chcon 修改文件的安全上下文（不知道干嘛的。。）</li>
+<li>chgrp 修改文件或文件夹所属的组</li>
+<li>chmod 修改文件或文件夹的读写执行权限</li>
+<li>chown 修改文件或文件夹的拥有者</li>
+<li>chroot 在特殊的root文件夹执行命令</li>
+<li>cksum 打印文件的CRC校验和包含的字节数</li>
+<li>comm 按行比较2个排好序的文件</li>
+<li>cp 复制文件或文件夹</li>
+<li>csplit 根据行或者正则将文件分割成多个文件</li>
+<li><p>cut 移除文件中每一行中的部分内容</p></li>
+<li><p>date 根据locale打印当前时间</p></li>
+<li>dd 转换或者复制文件</li>
+<li>df 打印文件系统空间使用情况</li>
+<li>dir 打印当前目录下的文件夹</li>
+<li>dircolors 设定ls的颜色，修改LS_COLORS环境变量</li>
+<li>dirname 从文件名中去掉程序名，只打印路径，和basename对应</li>
+<li><p>du 打印文件夹空间使用情况</p></li>
+<li><p>echo 显示文本</p></li>
+<li>env 打印环境变量</li>
+<li>expand 将tab转换为空格</li>
+<li><p>expr 计算表达式的结果</p></li>
+<li><p>factor 计算一个数的质因子</p></li>
+<li>false 设置退出状态码为1然后退出</li>
+<li>fmt 简单的文本格式化工具</li>
+<li><p>fold 根据指定的宽度重新格式化文本</p></li>
+<li><p>groups 打印所有的用户组</p></li>
+<li><p>head 打印文件的前几行</p></li>
+<li><p>hostid 打印当前主机的数字识别码</p></li>
+<li><p>id 打印真实有效的用户和群组id</p></li>
+<li><p>install 复制文件，设置属性</p></li>
+<li><p>join 根据第1列合并2个文件</p></li>
+<li><p>kill 给进程发送信号，或者列出信号</p></li>
+<li><p>link 创建一个硬链接 link == ln</p></li>
+<li>ln 给文件创建链接</li>
+<li>logname 打印用户的登录名</li>
+<li><p>ls 打印文件夹内容</p></li>
+<li><p>md5sum 计算文件的md5值</p></li>
+<li>mkdir 新建文件夹</li>
+<li>mkfifo 创建命名管道</li>
+<li>mknod 创建块设备或字符设备的特殊文件</li>
+<li>mktemp 创建临时文件夹或目录</li>
+<li><p>mv 移动或重命名文件</p></li>
+<li><p>nice 调整程序运行的优先级</p></li>
+<li>nl 类似cat，但同时打印行号</li>
+<li>nohup 执行一个命令，忽略hangup信号</li>
+<li>nproc 显示当前有个cpu核心可以用，包括超线程技术虚拟的核。。</li>
+<li><p>numfmt 将数字转成/转回人类可读的字符串</p></li>
+<li><p>od 将文件转换为8进制或其他进制</p></li>
+<li><p>paste 按行合并2个文件</p></li>
+<li>pathchk 检查路径的有效性和可移植性</li>
+<li>pinky 轻量级的finger</li>
+<li>pr 格式化文本文件，分页或分栏，以便于打印</li>
+<li>printenv 打印出系统环境变量</li>
+<li>printf 格式化和打印数据</li>
+<li>ptx 读取指定的文本，从中创建重新整理的索引，并打印</li>
+<li><p>pwd 打印当前目录</p></li>
+<li><p>readlink 显示相对的符号链接的原身</p></li>
+<li>realpath 显示文件的真实路径</li>
+<li>rm 删除文件</li>
+<li>rmdir 删除文件夹</li>
+<li><p>runcon 使用特别的安全上下文执行命令</p></li>
+<li><p>seq 打印序列化的数字</p></li>
+<li>sha1sum 计算SHA1值</li>
+<li>sha224sum 计算SHA224的值</li>
+<li>sha256sum 计算SHA256的值</li>
+<li>sha384sum 计算SHA384的值</li>
+<li>sha512sum 计算SHA512的值</li>
+<li>shred 多次覆盖一个文件以隐藏其内容，删除，粉碎。。</li>
+<li>shuf 将文件内容打算，并在标准输出打印</li>
+<li>sleep 暂停指定的时间</li>
+<li>sort 根据文本内容排序</li>
+<li>split 将文件分割成多份</li>
+<li>stat 显示文件或文件系统的状态</li>
+<li>stty 修改终端的设置</li>
+<li>sum 检查和计算文件的块数目</li>
+<li><p>sync 刷新文件系统缓冲区</p></li>
+<li><p>tac 倒序打印文件，负的cat</p></li>
+<li>tail 打印文件的最后几行</li>
+<li>tee 从标准输入读取，写到标准输出和文件</li>
+<li>test 检查文件类型和比较变量的值</li>
+<li>timeout 指定一个时间限制然后执行一个命令</li>
+<li>touch 修改文件时间戳，一般用来新建文件</li>
+<li>tr 转换字符或删除字符</li>
+<li>true 类似false，设置退出状态码为0然后退出</li>
+<li>truncate 根据指定的大小减小或增大文件的大小</li>
+<li>tsort 对文件执行拓扑排序</li>
+<li><p>tty 打印当前连接到标准输入的终端的文件名</p></li>
+<li><p>uname 打印系统信息</p></li>
+<li>unexpand 将空格转化为tab，负的expand</li>
+<li>uniq 去除文件中重复的连续行</li>
+<li>unlink 移除文件，负的link</li>
+<li>uptime 打印系统运行时间信息</li>
+<li><p>users 打印当前登录到主机的用户名</p></li>
+<li><p>vdir 打印文件夹内容，类似ls -l</p></li>
+<li><p>wc 计算文文件的函数，单词数和字符数</p></li>
+<li>who 打印当前谁登录了</li>
+<li><p>whoami 显示当前用户</p></li>
+<li><p>yes 打印一系列的yes直到被kill</p></li>
+</ul>
+
+
+</div>
+
+
+            <div class="footer">
+              <div class="contact">
+                <div>lyuehh</div>
+                <div>programmer</div>
+                <div>lyuehh^gmail.com</div>
+              </div>
+              <div class="contact">
+                <a href="http://github.com/lyuehh/">github.com/lyuehh</a><br />
+                <a href="http://twitter.com/lyuehh/">twitter.com/lyuehh</a><br />
+                <a href="http://weibo.com/lyused/">weibo.com/lyused</a><br />
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- /container -->
+
+    </body>
+</html>

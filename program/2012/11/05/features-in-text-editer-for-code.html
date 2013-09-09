@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>编程用的文本编辑器应该具有的功能</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/blog/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/blog/css/main.css">
+
+    </head>
+    <body>
+
+        <div class="container">
+          <div class="site">
+            <div class="header">
+              <h1 class="title"><a href="/blog/index.html">blog</a></h1>
+              <a class="extra" href="/blog/about.html">about</a>
+            </div>
+
+            <h2>编程用的文本编辑器应该具有的功能</h2>
+<p class="meta">2012-11-05 10:12</p>
+
+<div id="post">
+<p>本文列举写代码用的文本编辑器应该有哪些功能
+每行最后的命令就是vi中对应的命令，注意有些是插件的功能，不是vi本身的功能，并且快捷键是我自己用的，可以自定义</p>
+
+<h2>基本文本操作</h2>
+
+<ul>
+<li>插入字符，单词，行，段落 a, A, o, O, I, i</li>
+<li>删除字符，单词，行，段落 x, dw, d$, d)</li>
+<li>合并行，上移本行，下移本行 J, ddkP, ddp</li>
+<li>插入，撤销行注释，块注释 cmd+/, gcp</li>
+<li>书签 m</li>
+<li>大小写转换 ~</li>
+<li>查找替换，是否区分大小写，正则支持等 ?, /</li>
+<li>撤销，重做 u, Ctrl+r</li>
+<li>编码支持，utf-8，gb2312，gbk等 encoding等</li>
+<li>全文查找，所选择部分查找，文件夹查找，工程文件中查找</li>
+<li>全屏</li>
+<li>多栏 vv, ss</li>
+<li>拼写检查</li>
+<li>词典</li>
+<li>文件切换，上一个，下一个 ,z  ,x  ,lj</li>
+<li>主题</li>
+<li>FTP、SCP支持</li>
+</ul>
+
+
+<h2>代码相关</h2>
+
+<ul>
+<li>关键词高亮</li>
+<li>换行符转换</li>
+<li>添加、移除utf-8 BOM头</li>
+<li>高亮当前行</li>
+<li>标尺</li>
+<li>函数定义，类定义</li>
+<li>自动完成，参数提示 Ctrl + n</li>
+<li>代码片段 TAB</li>
+<li>方法列表，变量列表 ,T</li>
+<li>方法查找 ,f</li>
+<li>括号配对，HTML标签配对 %</li>
+<li>格式化代码 =</li>
+<li>CSS颜色预览</li>
+<li>代码折叠 zc, zo</li>
+<li>格式化粘贴</li>
+<li>console</li>
+<li>宏 q, @</li>
+<li>多标签支持 cmd+t</li>
+<li>等宽字体支持</li>
+<li>格式化文本，缩进 =, &lt;&lt;, >></li>
+<li>跨平台，终端支持</li>
+<li>SCM工具支持，git, svn等</li>
+<li>代码校验，错误提示 quickfix</li>
+<li>build工具支持，make, rake等 !</li>
+<li>插件支持</li>
+</ul>
+
+
+<h2>finally</h2>
+
+<p>我没有用过Emacs，所以我只推荐vim<br/>
+我用的vim配置是<a href="https://github.com/skwp/dotfiles">这里</a>的，已经配置好了，自带了很多插件，而且针对html，ruby等做了优化，非常好用，建议直接clone一份下来，这样就不用自己折腾了<br/>
+如果你觉得这个配置还是不好使，你可以自己折腾一套vim的配置，然后放到github上共享给大家~</p>
+
+<h3>reference</h3>
+
+<ul>
+<li><a href="http://zh.wikipedia.org/zh/%E6%96%87%E4%BB%B6%E7%BC%96%E8%BE%91%E5%99%A8%E6%AF%94%E8%BE%83">http://zh.wikipedia.org/zh/%E6%96%87%E4%BB%B6%E7%BC%96%E8%BE%91%E5%99%A8%E6%AF%94%E8%BE%83</a></li>
+<li><a href="https://github.com/skwp/dotfiles">https://github.com/skwp/dotfiles</a></li>
+</ul>
+
+
+</div>
+
+
+            <div class="footer">
+              <div class="contact">
+                <div>lyuehh</div>
+                <div>programmer</div>
+                <div>lyuehh^gmail.com</div>
+              </div>
+              <div class="contact">
+                <a href="http://github.com/lyuehh/">github.com/lyuehh</a><br />
+                <a href="http://twitter.com/lyuehh/">twitter.com/lyuehh</a><br />
+                <a href="http://weibo.com/lyused/">weibo.com/lyused</a><br />
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- /container -->
+
+    </body>
+</html>

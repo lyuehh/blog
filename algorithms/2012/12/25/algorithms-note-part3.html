@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>算法学习笔记之三 - 栈和队列</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/blog/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/blog/css/main.css">
+
+    </head>
+    <body>
+
+        <div class="container">
+          <div class="site">
+            <div class="header">
+              <h1 class="title"><a href="/blog/index.html">blog</a></h1>
+              <a class="extra" href="/blog/about.html">about</a>
+            </div>
+
+            <h2>算法学习笔记之三 - 栈和队列</h2>
+<p class="meta">2012-12-25 14:41</p>
+
+<div id="post">
+<h2>栈</h2>
+
+<p>栈是一种基于后进先出(LIFO)策略的集合类型，栈限制了操作只能在一端进行，
+但没有限制插入和删除操作进行的时间，只要元素位于栈顶
+即可出栈，比如有3个元素a, b, c依次进栈，且元素只允许进一次栈，则可能
+的出栈序列有abc, acb, bac, bca, cba 5种。</p>
+
+<p>栈是一个线性表，所以可以用数组实现，也可以用链表实现。</p>
+
+<p>下面用链表实现。</p>
+
+<p>```javascript
+ /<em>
+ * stack_linkedlist
+ </em>/</p>
+
+<p>'use strict';</p>
+
+<p>function Node(item) {
+  this.item = item;
+  this.next = null;
+}</p>
+
+<p>function Stack() {
+  this.first = null;
+  this.N = 0;
+}</p>
+
+<p>/<em>*
+ * Stack size
+ * @return {Number} size
+ </em>/
+Stack.prototype.size = function () {
+  return this.N;
+};</p>
+
+<p>/<em>*
+ * Stack is empty or not
+ * @return {Boolean} isEmpty
+ </em>/
+Stack.prototype.isEmpty = function () {
+  return this.N === 0;
+};</p>
+
+<p>/<em>*
+ * Push item into stack
+ * @param {Object} item item
+ </em>/
+Stack.prototype.push = function (item) {
+  var oldFirst = this.first;
+  this.first = new Node(item);
+  this.first.next = oldFirst;
+  this.N++;
+};</p>
+
+<p>/<em>*
+ * Pop item out of stack
+ * @return {Object} item
+ </em>/
+Stack.prototype.pop = function () {
+  var item = this.first.item;
+  this.first = this.first.next;
+  this.N--;
+  return item;
+};</p>
+
+<p>module.exports = Stack;
+```</p>
+
+<h2>队列</h2>
+
+<p>队列是一种基于先进先出(FIFO)策略的集合类型，和栈类似，它可以有数组实现，
+也可以由链表实现。</p>
+
+<p>下面是链表实现。
+```javascript
+/<em>
+ * queue_linkedlist
+ * </em>/</p>
+
+<p>function Node(item) {
+  this.item = item;
+  this.next = null;
+}</p>
+
+<p>function Queue() {
+  this.first = null;
+  this.last = null;
+  this.N = 0;
+}</p>
+
+<p>Queue.prototype.size = function () {
+  return this.N;
+};</p>
+
+<p>Queue.prototype.isEmpty = function () {
+  return this.N === 0;
+};</p>
+
+<p>Queue.prototype.enqueue = function (item) {
+  var oldLast = this.last;
+  this.last = new Node(item);
+  this.last.next = null;
+  if(this.isEmpty()) {
+    this.first = this.last;
+  } else {
+    oldLast.next = this.last;
+  }
+  this.N++;
+};</p>
+
+<p>Queue.prototype.dequeue = function () {
+  var item = this.first.item;
+  this.first = this.first.next;
+  if(this.isEmpty()) {
+    this.last = null;
+  }
+  this.N--;
+  return item;
+};</p>
+
+<p>module.exports = Queue;
+```</p>
+
+</div>
+
+
+            <div class="footer">
+              <div class="contact">
+                <div>lyuehh</div>
+                <div>programmer</div>
+                <div>lyuehh^gmail.com</div>
+              </div>
+              <div class="contact">
+                <a href="http://github.com/lyuehh/">github.com/lyuehh</a><br />
+                <a href="http://twitter.com/lyuehh/">twitter.com/lyuehh</a><br />
+                <a href="http://weibo.com/lyused/">weibo.com/lyused</a><br />
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- /container -->
+
+    </body>
+</html>

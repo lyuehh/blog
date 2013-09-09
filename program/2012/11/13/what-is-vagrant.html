@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>虚拟开发环境搭建工具vagrant介绍</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/blog/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/blog/css/main.css">
+
+    </head>
+    <body>
+
+        <div class="container">
+          <div class="site">
+            <div class="header">
+              <h1 class="title"><a href="/blog/index.html">blog</a></h1>
+              <a class="extra" href="/blog/about.html">about</a>
+            </div>
+
+            <h2>虚拟开发环境搭建工具vagrant介绍</h2>
+<p class="meta">2012-11-13 20:16</p>
+
+<div id="post">
+<h2>介绍</h2>
+
+<p>vagrant是一个创建和分发虚拟化开发环境的工具，使用ruby编写，基于Oracle的VirtualBox，它提供了一个可配置的、轻量级的、可重用的、便携的虚拟化开发环境。<br/>
+类似工具的需求比如:</p>
+
+<ul>
+<li>需要纯净的开发或者测试环境</li>
+<li>新员工加入，需要从头搭建完整的开发环境</li>
+</ul>
+
+
+<p>有了vagrant，只需要创建一个打包好的package，里面开发工具，代码库，服务器等都已经安装配置好了，需要的时候直接拿来就可以工作了。</p>
+
+<h2>使用</h2>
+
+<h3>下载安装</h3>
+
+<ul>
+<li><a href="http://downloads.vagrantup.com">下载vagrant</a>，目前的最新版本是1.0.5，vagrant可以在多个平台运行，下载自己需要的那个平台即可。需要注意的是，如果你已经安装了ruby和gem，那么直接在终端执行<code>gem install vagrant</code>即可安装vagrant。</li>
+<li><a href="https://www.virtualbox.org/wiki/Downloads">下载VirtualBox</a>，vagrant基于VirtualBox，所以需要安装，VirtualBox也是跨平台软件，按需下载即可。</li>
+</ul>
+
+
+<h3>创建一个box</h3>
+
+<p>box就相当于是一个环境，它一般是一个VirtualBox虚拟机的镜像，官方提供了一个基于Ubuntu 10.04的box。
+给vagrant添加一个box:</p>
+
+<pre><code>vagrant box add lucid32 http://files.vagrantup.com/lucid32.box
+</code></pre>
+
+<p>其中<code>lucid32</code>表示给这个box起名lucid32。<br/>
+如果网速太慢，那么可以先用下载工具把<code>lucid32.box</code>下载过来，然后直接执行</p>
+
+<pre><code>vagrant box add lucid32 lucid32.box
+</code></pre>
+
+<p>即可。<br/>
+<a href="http://www.vagrantbox.es/">这个网站</a>上收集了很多用户自己创建的box，可以根据自己的需要选择下载。</p>
+
+<h3>创建一个虚拟机</h3>
+
+<p>执行</p>
+
+<pre><code>vagrant init lucid32
+</code></pre>
+
+<p>表示基于lucid32创建一个虚拟环境，命令执行后会在当前目录下生成一个<code>Vagrantfile</code>文件，这个就是当前虚拟环境的配置文件，里面的内容相当于是一个ruby程序，里面的注释写的都很详细，这里就不一一介绍了。<br/>
+然后执行</p>
+
+<pre><code>vagrant up
+</code></pre>
+
+<p>即可启动虚拟机，默认是没有启动界面的，可以修改上面提到的配置文件使其启动时显示GUI界面。<br/>
+非windows系统在虚拟机启动后执行</p>
+
+<pre><code>vagrant ssh
+</code></pre>
+
+<p>即可ssh到虚拟环境中，然后就可以做自己的事了。windows系统上没有自带ssh，需要使用第三方ssh客户端，比如SecureCRT 根据<code>vagrant up</code>命令的日志也可以ssh到虚拟机中，这里就不再介绍了。。</p>
+
+<p><code>Vagrantfile</code> 有几项比较重要的配置，这里简单介绍一下:</p>
+
+<pre><code>config.vm.network # 配置虚拟机网络连接方式，是否可以访问外网等
+config.vm.forward_port # 配置虚拟机端口转发，比如虚拟机里服务器的端口为80，可以转发为主机的8080端口
+config.vm.share_folder # 配置文件夹共享目录
+puppet 和 chef  # 这两个是自动化服务器配置的，下次会单独介绍
+</code></pre>
+
+<h3>打包box</h3>
+
+<p>当虚拟机里环境搭建好以后，可能需要把当前的状态打个包，分发给其他同事或者做个备份，这时执行</p>
+
+<pre><code>vagrant package
+</code></pre>
+
+<p>即可在当前目录生成一个<code>package.box</code>的box，这个box和前面的那个<code>lucid32.box</code>类似，你可以把它保存到其他位置作为备份了。</p>
+
+<h3>其他命令</h3>
+
+<pre><code>vagrant halt     # 关闭虚拟机
+vagrant suspend  # 休眠虚拟机
+vagrant reload   # 重启虚拟机
+vagrant status   # 查看当前虚拟机状态 
+</code></pre>
+
+<p>更多其他命令可以通过<code>vagrant help</code>查看。</p>
+
+<h3>reference</h3>
+
+<ul>
+<li><a href="http://railscasts.com/episodes/292-virtual-machines-with-vagrant">http://railscasts.com/episodes/292-virtual-machines-with-vagrant</a></li>
+<li><a href="http://saberma.me/linux/2011/03/03/vagrant-virtual-develop-enviroment.html">http://saberma.me/linux/2011/03/03/vagrant-virtual-develop-enviroment.html</a></li>
+</ul>
+
+
+</div>
+
+
+            <div class="footer">
+              <div class="contact">
+                <div>lyuehh</div>
+                <div>programmer</div>
+                <div>lyuehh^gmail.com</div>
+              </div>
+              <div class="contact">
+                <a href="http://github.com/lyuehh/">github.com/lyuehh</a><br />
+                <a href="http://twitter.com/lyuehh/">twitter.com/lyuehh</a><br />
+                <a href="http://weibo.com/lyused/">weibo.com/lyused</a><br />
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- /container -->
+
+    </body>
+</html>
