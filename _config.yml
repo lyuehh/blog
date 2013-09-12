@@ -2,4 +2,3 @@ name: blog
 pygments: true
 markdown: rdiscount
 show_drafts: true
-baseurl: /blog
