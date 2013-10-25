@@ -20,54 +20,72 @@ prototype在javaScript中主要用于继承，一步一步来：
 
 首先声明Animal构造函数：
 
+
 ```javascript
+
 function Animal(name) {
    this.name = name;
 }
 Animal.prototype.say = function() {
    console.log('Name: ' + this.name);
 };
+
 ```
+
 
 然后声明Cat构造函数：
 
+
 ```javascript
+
 function Cat(name) {
    this.name = name;
 }
 Cat.prototype = new Animal();
 var c1 = new Cat('cat 1');
+
 ```
+
 
 这样c1就会继承Animal的say方法了，但是这样`Cat.prototype.constructor`就不指向构造器本身，而是指向Animal了，所以我们需要重写`Cat.prototype.constructor`;
 
 ## 2
 
+
 ```javascript
+
 function Cat(name) {
    this.name = name;
 }
 Cat.prototype = new Animal();
 Cat.prototype.constructor = Cat;
 var c1 = new Cat('cat 1');
+
 ```
+
 
 这里Cat.prototype指向了一个新的Animal对象，所以也继承了Animal的实例属性和原型属性，我们一般只需要继承实例属性即可。
 
 ## 3
 
+
 ```javascript
+
 function Cat(name) {
    this.name = name;
 }
 Cat.prototype = Animal.prototype;
 Cat.prototype.constructor = Cat;
 var c1 = new Cat('cat 1');
+
 ```
+
 
 但是这里有一个问题，子类Cat的原型指向父类的原型，他们是引用传递的，当我们修改了子类原型上的方法，父类也会受到影响，这不是我们希望的，所以我们需要一个代理对象来隔离他们。
 
+
 ```javascript
+
 function Cat(name) {
    this.name = name;
 }
@@ -76,11 +94,15 @@ F.prototype = Animal.prototype;
 Cat.prototype = new F();
 Cat.prototype.constructor = Cat;
 var c1 = new Cat('cat 1');
+
 ```
+
 
 把上面的方法封装一下：
 
+
 ```javascript
+
 var extend = function(Child, Parent) {
    function F() {};
    F.prototype = Parent.prototype;
@@ -88,13 +110,17 @@ var extend = function(Child, Parent) {
    Child.prototype.constructor = Child;
 };
 extend(Cat, Animal);
+
 ```
+
 
 ## 4
 
 有时候我们需要从子类调用父类的方法，所以我们在子类上设置一个属性指向父类。
 
+
 ```javascript
+
 var extend = function(Child, Parent) {
    function F() {};
    F.prototype = Parent.prototype;
@@ -102,13 +128,17 @@ var extend = function(Child, Parent) {
    Child.prototype.constructor = Child;
    Child.__super__ = Parent.prototype;
 };
+
 ```
+
 
 ## 5
 
 JavaScript还可以使用其他方式的继承，比如直接把父类的属性复制到子类中去。
 
+
 ```javascript
+
 var extend2 = function(Child, Parent) {
    var p = Parent.prototype;
      var c = Child.prototype;
@@ -117,13 +147,17 @@ var extend2 = function(Child, Parent) {
      }
      c.__super__ = p;
 }
+
 ```
+
 
 ## 6
 
 其实Parent.prototype和Child.prototype本质上都是对象，所以上面的可以简写为：
 
+
 ```javascript
+
 var extend3 = function(o) {
      var c = {};
      for(var i in p) {
@@ -132,13 +166,17 @@ var extend3 = function(o) {
      c.__super__ = p;
      return c;
 }
+
 ```
+
 
 ## 7
 
 前面复制父类属性时，如果某个属性是引用类型，比如是对象或者数组，那么复制以后，修改子类的属性，也会影响到父类。
 比如：
+
 ```javascript
+
 function A(name) {
   this.name = name;
 }
@@ -157,11 +195,15 @@ b1.prototype.a = [4,5,6];
 console.log(b1.name + ' ' + b1.a); // b 4,5,6
 console.log(a1.name + ' ' + a1.a); // b 4,5,6
 
+
 ```
+
 
 所以这里需要深度拷贝。
 
+
 ```javascript
+
 function deepCopy(p, c) {
     var c = c || {};
     for (var i in p) {
@@ -174,14 +216,18 @@ function deepCopy(p, c) {
     }
     return c;
 }
+
 ```
+
 
 ## 8
 
 前面我们使用了属性拷贝和原型继承来实现继承，其实我们可以把他们结合起来。
 这里拷贝的是父类的静态成员，类似于Java中的类变量。  
 
+
 ```javascript
+
 var extend = function (Child, Parent) {
   for (var i in Parent) {
     if(Parent.hasOwnProperty(i)) {
@@ -194,7 +240,9 @@ var extend = function (Child, Parent) {
   Child.prototype.constructor = Child;
   Child.__super__ = Parent.prototype;
 };
+
 ```
+
 
 ## 9
 
@@ -204,7 +252,9 @@ var extend = function (Child, Parent) {
 
 CoffeeScript中的继承，如下是官网上的例子：
 
+
 ```coffeescript
+
 class Animal
   constructor: (@name) ->
   move: (meters) ->
@@ -224,11 +274,15 @@ sam = new Snake "Sammy the Python"
 tom = new Horse "Tommy the Palomino"
 sam.move()
 tom.move()
+
 ```
+
 
 编译成JavaScript后是这样：
 
+
 ```javascript
+
 __hasProp = {}.hasOwnProperty,
 __extends = function(child, parent) {
   for (var key in parent) {
@@ -278,7 +332,9 @@ sam = new Snake("Sammy the Python");
 tom = new Horse("Tommy the Palomino");
 sam.move();
 tom.move();
+
 ```
+
 
 里面的__extend函数和上面介绍的类似，就是用来实现继承。  
 

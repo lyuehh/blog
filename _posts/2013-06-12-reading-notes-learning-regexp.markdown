@@ -14,15 +14,23 @@ categories: book
 判断数字字符, `/[0123456789]/`
 
 ### python:
-```
-import re
-re.search('[0123456789]', '0') != None
+
 ```
 
+import re
+re.search('[0123456789]', '0') != None
+
+```
+
+
 ### javascript:
+
 ```
+
 /[0123456789]/.test('0');
+
 ```
+
 
 ## 1.2 关于Python的基础知识
 
@@ -200,7 +208,9 @@ Java和.NET中提供，其他语言不支持。
 * `^.*\\` 匹配windows路径
 * `[^\\]*$` 匹配windows程序名
 
+
 ```
+
 ##　匹配路径
 >>> re.search(r"^.*/", "/usr/local/bin/python").group(0)
 '/usr/local/bin/'
@@ -222,7 +232,9 @@ Java和.NET中提供，其他语言不支持。
 'python'
 >>> re.search(r"[^/]??$", "/usr/local/bin/python").group(0)  ？？
 'n' 
+
 ```
+
 
 ## 2.7 转义
 
@@ -350,13 +362,17 @@ Java和.NET中提供，其他语言不支持。
 
 ### 不同语言中命名分组的记法
 
+
 ```
+
 语言     分组记法         反向引用记法     替换时的引用记法
 .NET    (?<name>...)    \k<name>       ${name}
 PHP     (?P<name>...)   (?P=name)      不支持，只能用${num}
 Python  (?P<name>...)   (?P=name)      \g<name>
 Ruby    (?P<name>...)    \k<name>      \k<name>
+
 ```
+
 
 ## 3.4 非捕获分组
 
@@ -413,9 +429,13 @@ nginx:
 * `\b\w+\b`即可匹配英文单词
 * 非单词边界`\B`
 
+
 ```
+
 print re.sub(r"\brow\b", r"<span class=\"h1\">\g<0></span>", "a string row, haha")
+
 ```
+
 
 ## 4.2 行起始/结束位置
 
@@ -438,10 +458,14 @@ print re.sub(r"\brow\b", r"<span class=\"h1\">\g<0></span>", "a string row, haha
 
 ### 多行文本替换
 
+
 ```
+
 plainText = "line1\nline2\nline3"
 print re.sub(r"(?m)$", "</p>", re.sub(r"(?m)^","<p", plainText))
+
 ```
+
 
 ## 4.3 环视
 
@@ -449,13 +473,17 @@ print re.sub(r"(?m)$", "</p>", re.sub(r"(?m)^","<p", plainText))
 * `(?<!/)` 当前位置之前(左侧)，不能出现/能匹配的文本
 * html open tag `<(?!/)('[^']*'|"[^"]*"|[^'">])+(?<!/)>`
 
+
 ```
+
 名字                    判断方向
 肯定顺序环视       (?=...)
 否定顺序环视       (?!…)
 肯定逆序环视       (?<=…)
 否定逆序环视       (?<!…)
+
 ```
+
 
 * 123456 -> 123,456 `(?<=\d)(?=(\d{3})+(?!\d))`
 * 去掉中英文混排中的空白字符 `(?<![a-zA-z])\s+(?![a-zA-Z])`
@@ -498,7 +526,9 @@ print re.sub(r"(?m)$", "</p>", re.sub(r"(?m)^","<p", plainText))
 * `(?i)the` 模式修饰符 JavaScript不支持
 * `re.I` 预定义常量
 
+
 ```
+
 
 .NET  RegexOPtions.IgnoreCase
 Java Pattern.CASE_INSENSTIVE
@@ -507,7 +537,9 @@ PHP /regex/i
 Python re.I, re.IGNORECASE
 Ruby Regexp::IGNORECASE, /regex/i
 
+
 ```
+
 
 ## 5.2 单行模式
 
@@ -575,12 +607,16 @@ Java中，模式修饰符具有更高的优先级
 
 ### 6.1.1 字符串转义与正则转义
 
+
 ```
+
 字符串文字  字符串/正则文字 正则表达式
 \\n                    \n                    回车
 \\t                    \t                    tab
 \\\\                    \\                    \
+
 ```
+
 
 * \b 退格符
 * \\b \b 单词边界
@@ -589,7 +625,9 @@ Java中，模式修饰符具有更高的优先级
 
 ### 6.1.2 元字符的转义
 
+
 ```
+
 记法          转义          说明
 []               \[]               只对开括号转义
 .               \.               
@@ -600,14 +638,18 @@ Java中，模式修饰符具有更高的优先级
 *?               \*\?
 +?               \+\?
 ??               \?\?
+
 ```
+
 (…)               \(...\)          开，闭括号都需要转义
 |                     \|
 (…|…)               \(…\|…\)
 ^                    \^
 $                    \$
 $num               \$或$$
+
 ```
+
 
 ### 6.1.3 彻底消除元字符的特殊含义
 
@@ -678,7 +720,9 @@ $num               \$或$$
 
 ### 发(53d1)的表示方法
 
+
 ```
+
 
 语言     表示法
 .NET      \u53d1
@@ -687,7 +731,9 @@ JavaScript \u53d1
 Python     \u53d1
 PHP          \x{53d1}
 Ruby         \u{53d1}
+
 ```
+
 
 ### 汉字的表示
 

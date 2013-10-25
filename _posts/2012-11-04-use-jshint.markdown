@@ -13,14 +13,22 @@ jshint和[csshint](http://csslint.net/)类似，只是前者是校验js文件的
 ## 使用
 建议安装node版本的，
 
-```
-$ npm install -g
-```
-然后
 
 ```
-$ jshint jquery.js
+
+$ npm install -g
+
 ```
+
+然后
+
+
+```
+
+$ jshint jquery.js
+
+```
+
 即可。
 ## Options
 ### (以下内容是从http://www.jshint.com/docs/翻译过来的,以原文为准)

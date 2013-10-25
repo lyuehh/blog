@@ -16,7 +16,9 @@ categories: algorithms
 
 下面用链表实现。
 
+
 ```javascript
+
  /*
  * stack_linkedlist
  */
@@ -72,7 +74,9 @@ Stack.prototype.pop = function () {
 };
 
 module.exports = Stack;
+
 ```
+
 
 
 ## 队列
@@ -81,7 +85,9 @@ module.exports = Stack;
 也可以由链表实现。  
 
 下面是链表实现。
+
 ```javascript
+
 /*
  * queue_linkedlist
  * */
@@ -128,4 +134,6 @@ Queue.prototype.dequeue = function () {
 };
 
 module.exports = Queue;
+
 ```
+

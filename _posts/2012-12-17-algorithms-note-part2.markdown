@@ -28,7 +28,9 @@ categories: algorithms
 ### 删除的实现
 从index开始，将后面的元素向左移动一位。
 
+
 ```javascript part2: array_list.js
+
 /*
  * array_list
  */
@@ -91,7 +93,9 @@ ArrayList.prototype = {
 };
 
 module.exports = ArrayList;
+
 ```
+
 
 ## 线性表的链表实现
 
@@ -121,7 +125,9 @@ current为current的next，当i等于index时，previous为所查找节点的上
 
 ### 代码
 
+
 ```javascript
+
 /*
  * linkedlist
  */
@@ -199,7 +205,9 @@ LinkedList.prototype = {
 
 module.exports = LinkedList;
 
+
 ```
+
 
 ## 双链表
 双向链表的每个节点有2个指针，一个指向后继结点，一个指向前驱节点，使用双向链表，可以从
@@ -222,7 +230,9 @@ module.exports = LinkedList;
 index时，将current的prev的next指向current的next即可。
 
 ### 代码
+
 ```javascript
+
 function Node(item) {
   this.item = null;
   this.prev = null;
@@ -315,7 +325,9 @@ DoubleLinkedList.prototype = {
 };
 
 module.exports = DoubleLinkedList;
+
 ```
+
 
 ## Gitbub
 测试代码位于Github, <https://github.com/lyuehh/algorithms-note-js>,安装mocha，然后在目录执行mocha即可。

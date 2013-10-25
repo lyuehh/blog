@@ -8,14 +8,18 @@ categories: js
 
 下面是问题:
 
+
 ```javascript
+
 var x = {
   toString: function() { return "foo"; },
   valueOf: function() { return 42; }
 };
 window.console.log ("x="+x);
 window.console.log ("x="+x.toString());
+
 ```
+
 问控制台会输出什么.
 
 这个肯定不能随便猜,作为编程语言,都是有个规范来参考,对于js来说,
@@ -107,14 +111,18 @@ build-in types: Undefined, Null, Boolean, Number, and String.`
 
 看了这么多规范,那可以解答上面的问题了.
 
+
 ```javascript
+
 var x = {
   toString: function() { return "foo"; },
   valueOf: function() { return 42; }
 };
 window.console.log ("x="+x);
 window.console.log ("x="+x.toString());
+
 ```
+
 
 "x=" + x
 

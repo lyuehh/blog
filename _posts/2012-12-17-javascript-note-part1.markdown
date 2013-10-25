@@ -19,7 +19,9 @@ categories: javascript
  - - -
 ## 不要重复
 
+
 ```javascript
+
 /*
   demo1: do not repeat yourself
 */
@@ -104,11 +106,15 @@ var Ajax = {
 Ajax.get('/user' + '?dept=aaa&active=true', function(data) {
   console.log('data: ' + JSON.stringify(data));
 })
+
 ```
+
 
 ## 缓存数据
 
+
 ```javascript
+
 /* tiny_store.js */
 function Store() {
   this._data = {};
@@ -122,19 +128,27 @@ Store.prototype.get = function(key) {
 Store.prototype.clear = function() {
   this._data = {};
 };
+
 ```
 
+
+
 ```javascript
+
 var store = new Store();
 Ajax.get('/user', function(data) {
   store.set('user', data);
 });
 console.log(store.get('user')); // use user anywhere else..
+
 ```
+
 
 ## 使用高阶函数
 
+
 ```javascript
+
 /*
 * for loop
 */
@@ -153,11 +167,15 @@ var sum2 = function(arr) {
     return s + i;
   }, 0);
 };
+
 ```
+
 
 ## 使用链式操作
 
+
 ```javascript
+
 // use underscore.js, from http://underscorejs.org/#chain
 var stooges = [{name : 'curly', age : 25}, {name : 'moe', age : 21}, {name : 'larry', age : 23}];
 var youngest = _.chain(stooges)
@@ -166,28 +184,40 @@ var youngest = _.chain(stooges)
   .first()
   .value();
 console.log(youngest);
+
 ```
+
 
 ## 使用闭包
 
+
 ```javascript
+
 (function(){
   // code here...
 }();
+
 ```
+
 
 ## 使用'use strict'
 
+
 ```javascript
+
 (function(){
   'use strict';
   // code here...
 }();
+
 ```
+
 
 ## 使用封装
 
+
 ```javascript
+
 var store = (function() {
   var data;
   var getData = function () {
@@ -205,33 +235,45 @@ var store = (function() {
     clearData: clearData
   };
 })();
+
 ```
+
 
 ##  捕获错误
 大部分的js方法不会抛异常，比如除以0，访问不存在的属性等，但是也有一些会抛出异常，当抛出异常时，js就不会继续执行，大部分情况下会影响用户继续操作，一下列出部分可能会抛出异常的js方法。  
 所以调用这些方法时，一定要小心，可以先校验参数，看是否是需要的类型，也可以加上try catch。
 
 ### 数组操作
+
 ```javascript
+
 new Array(-1); // invalid array length
 
 [1,2,3,4].reduce(function(x,y) {
  return x*y;
 }); // reduce of empty array with no initial value
+
 ```
 
+
 ### URL操作
+
 ```javascript
+
 decodeURIComponent('%XX'); //malformed URI sequence
 
 // 以下操作也会抛出异常
 encodeURI(uri);
 decodeURI();
 encodeURIComponent();
+
 ```
 
+
 ### JSON, evel, function
+
 ```javascript
+
 
 JSON.parse('xx'); // SyntaxError: JSON.parse
 eval('asdf'); // ReferenceError: asdf is not defined
@@ -240,20 +282,28 @@ new Function('var'); // SyntaxError: missing variable name
 
 _.include.apply([1,2,3],1);
 // TypeError: second argument to Function.prototype.apply must be an array
+
 ```
 
+
 ### 数字操作
+
 ```javascript
+
 var a = 34234234234.2342343;
 a.toExponential(333); // RangeError: precision 333 out of range
 
 // 这些操作也会
 toFixed()
 toPrecision()
+
 ```
 
+
 ### 对象操作
+
 ```javascript
+
 Object.create('a');
 //TypeError: Object prototype may only be an Object or null
 
@@ -262,4 +312,6 @@ Object.defineProperties('a')
 Object.defineProperty()
 Object.freeze('a')
 Object.isExtensible('a')
+
 ```
+
