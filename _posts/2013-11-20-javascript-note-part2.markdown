@@ -1,7 +1,7 @@
 ---
 layout: post
 title: JavaScript学习笔记 - part2
-date: 2013-11-120 20:35
+date: 2013-11-20 20:35
 comments: true
 categories: javascript
 ---
