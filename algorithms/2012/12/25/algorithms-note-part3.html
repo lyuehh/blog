@@ -11,7 +11,8 @@
 
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
-
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap-theme.min.css"/>
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap.min.css"/>
     </head>
     <body>
 
@@ -37,95 +38,96 @@
 
 <p>下面用链表实现。</p>
 
-<p>```javascript
- /<em>
+<pre><code class="javascript">
+ /*
  * stack_linkedlist
- </em>/</p>
+ */
 
-<p>'use strict';</p>
+'use strict';
 
-<p>function Node(item) {
+function Node(item) {
   this.item = item;
   this.next = null;
-}</p>
+}
 
-<p>function Stack() {
+function Stack() {
   this.first = null;
   this.N = 0;
-}</p>
+}
 
-<p>/<em>*
+/**
  * Stack size
  * @return {Number} size
- </em>/
+ */
 Stack.prototype.size = function () {
   return this.N;
-};</p>
+};
 
-<p>/<em>*
+/**
  * Stack is empty or not
  * @return {Boolean} isEmpty
- </em>/
+ */
 Stack.prototype.isEmpty = function () {
   return this.N === 0;
-};</p>
+};
 
-<p>/<em>*
+/**
  * Push item into stack
  * @param {Object} item item
- </em>/
+ */
 Stack.prototype.push = function (item) {
   var oldFirst = this.first;
   this.first = new Node(item);
   this.first.next = oldFirst;
   this.N++;
-};</p>
+};
 
-<p>/<em>*
+/**
  * Pop item out of stack
  * @return {Object} item
- </em>/
+ */
 Stack.prototype.pop = function () {
   var item = this.first.item;
   this.first = this.first.next;
   this.N--;
   return item;
-};</p>
+};
 
-<p>module.exports = Stack;
-```</p>
+module.exports = Stack;
+</code></pre>
 
 <h2>队列</h2>
 
 <p>队列是一种基于先进先出(FIFO)策略的集合类型，和栈类似，它可以有数组实现，
 也可以由链表实现。</p>
 
-<p>下面是链表实现。
-```javascript
-/<em>
- * queue_linkedlist
- * </em>/</p>
+<p>下面是链表实现。</p>
 
-<p>function Node(item) {
+<pre><code class="javascript">
+/*
+ * queue_linkedlist
+ * */
+
+function Node(item) {
   this.item = item;
   this.next = null;
-}</p>
+}
 
-<p>function Queue() {
+function Queue() {
   this.first = null;
   this.last = null;
   this.N = 0;
-}</p>
+}
 
-<p>Queue.prototype.size = function () {
+Queue.prototype.size = function () {
   return this.N;
-};</p>
+};
 
-<p>Queue.prototype.isEmpty = function () {
+Queue.prototype.isEmpty = function () {
   return this.N === 0;
-};</p>
+};
 
-<p>Queue.prototype.enqueue = function (item) {
+Queue.prototype.enqueue = function (item) {
   var oldLast = this.last;
   this.last = new Node(item);
   this.last.next = null;
@@ -135,9 +137,9 @@ Stack.prototype.pop = function () {
     oldLast.next = this.last;
   }
   this.N++;
-};</p>
+};
 
-<p>Queue.prototype.dequeue = function () {
+Queue.prototype.dequeue = function () {
   var item = this.first.item;
   this.first = this.first.next;
   if(this.isEmpty()) {
@@ -145,10 +147,10 @@ Stack.prototype.pop = function () {
   }
   this.N--;
   return item;
-};</p>
+};
 
-<p>module.exports = Queue;
-```</p>
+module.exports = Queue;
+</code></pre>
 
 </div>
 

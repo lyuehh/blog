@@ -11,7 +11,8 @@
 
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
-
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap-theme.min.css"/>
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap.min.css"/>
     </head>
     <body>
 
@@ -28,15 +29,16 @@
 <div id="post">
 <p>下面是问题:</p>
 
-<p><code>javascript
+<pre><code class="javascript">
 var x = {
   toString: function() { return "foo"; },
   valueOf: function() { return 42; }
 };
 window.console.log ("x="+x);
 window.console.log ("x="+x.toString());
-</code>
-问控制台会输出什么.</p>
+</code></pre>
+
+<p>问控制台会输出什么.</p>
 
 <p>这个肯定不能随便猜,作为编程语言,都是有个规范来参考,对于js来说,
 规范就是那个Ecma文档,这里我们参考Ecma-262.pdf.</p>
@@ -126,14 +128,14 @@ build-in types: Undefined, Null, Boolean, Number, and String.</code>
 
 <p>看了这么多规范,那可以解答上面的问题了.</p>
 
-<p><code>javascript
+<pre><code class="javascript">
 var x = {
   toString: function() { return "foo"; },
   valueOf: function() { return 42; }
 };
 window.console.log ("x="+x);
 window.console.log ("x="+x.toString());
-</code></p>
+</code></pre>
 
 <p>"x=" + x</p>
 

@@ -11,7 +11,8 @@
 
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
-
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap-theme.min.css"/>
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap.min.css"/>
     </head>
     <body>
 
@@ -35,7 +36,8 @@
 
 <h3>伪代码</h3>
 
-<pre><code>for(数组中每一个下标i) {
+<pre><code>
+for(数组中每一个下标i) {
   设j是从i到数组结束的所有元素中值最小的元素的下标
   交换i位置和j位置的元素
 }
@@ -63,18 +65,18 @@
 
 <h3>代码</h3>
 
-<p>```javascript
-/<em>
+<pre><code class="javascript">
+/*
  * select_sort.js
- * </em>/</p>
+ * */
 
-<p>var swap = function (items, i, j) {
+var swap = function (items, i, j) {
   var temp = items[i];
   items[i] = items[j];
   items[j] = temp;
-};</p>
+};
 
-<p>var select_sort = function(data) {
+var select_sort = function(data) {
   var N = data.length;
   var min;
   for (var i = 0; i &lt; N; i += 1) {
@@ -88,14 +90,15 @@
   }
 };
 exports.select_sort = select_sort;
-```</p>
+</code></pre>
 
 <h3>运行示例</h3>
 
 <p>[1,5,2,7,3,8,9,0]</p>
 
-<p>每次循环后的结果:
-<code>
+<p>每次循环后的结果:</p>
+
+<pre><code>
 [0,5,2,7,3,8,9,1] 最小的是0, 不变
 [0,1,2,7,3,8,9,5] 最小的是1, 和5交换
 [0,1,2,7,3,8,9,5] 最小的是2, 不变
@@ -103,7 +106,7 @@ exports.select_sort = select_sort;
 [0,1,2,3,5,8,9,7] 最小的是5, 和7交换
 [0,1,2,3,5,7,9,8] 最小的是7, 和8交换
 [0,1,2,3,5,7,8,9] 最小的是8, 和9交换
-</code></p>
+</code></pre>
 
 <h2>插入排序</h2>
 
@@ -114,7 +117,8 @@ exports.select_sort = select_sort;
 
 <h3>伪代码</h3>
 
-<pre><code>for(数组中第2个元素开始的每个i) {
+<pre><code>
+for(数组中第2个元素开始的每个i) {
   将i和前面的元素进行比较,与每一个比它大的元素进行交换
 }
 </code></pre>
@@ -135,30 +139,31 @@ N</em>N/4次交换.最坏情况下需要N<em>N/2次比较和N</em>N/2次交换,�
 
 <h3>代码</h3>
 
-<p>```javascript
-/<em>
+<pre><code class="javascript">
+/*
  * insert_sort.js
- </em>/</p>
+ */
 
-<p>var swap = require('./util').swap;
-var less = require('./util').less;</p>
+var swap = require('./util').swap;
+var less = require('./util').less;
 
-<p>var insert_sort = function(data) {
+var insert_sort = function(data) {
   var N = data.length;
   for(var i = 1;i &lt; N; i++) {
-    for(var j = i; j > 0 &amp;&amp; less(data[j], data[j-1]); j--) {
+    for(var j = i; j &gt; 0 &amp;&amp; less(data[j], data[j-1]); j--) {
       swap(data, j, j-1);
     }
   }
 };
 exports.insert_sort = insert_sort;
-```</p>
+</code></pre>
 
 <h3>运行示例</h3>
 
 <p>[1,5,2,7,3,8,9,0]</p>
 
-<pre><code>[1,5,2,7,3,8,9,0] 5比1大, 不变
+<pre><code>
+[1,5,2,7,3,8,9,0] 5比1大, 不变
 [1,2,5,7,3,8,9,0] 2比5小, 和5交换位置; 比1大, 停止
 [1,2,5,7,3,8,9,0] 7比5大, 不变
 [1,2,3,5,7,8,9,0] 3比7小,和7交换; 比5小,和5交换; 比2大, 停止
@@ -181,7 +186,8 @@ exports.insert_sort = insert_sort;
 
 <h3>伪代码</h3>
 
-<pre><code>while(递增序列h &gt;= 1) {
+<pre><code>
+while(递增序列h &gt;= 1) {
   for(数组中每间隔h的元素) {
     将i和前面的元素进行比较,与每一个比它大的元素进行交换
   }
@@ -205,22 +211,22 @@ exports.insert_sort = insert_sort;
 
 <h3>代码</h3>
 
-<p>```javascript
-/<em>
+<pre><code class="javascript">
+/*
  * shell_sort.js
- </em>/
+ */
 var swap = require('./util').swap;
-var less = require('./util').less;</p>
+var less = require('./util').less;
 
-<p>var shell_sort = function(data) {
+var shell_sort = function(data) {
   var N = data.length;
   var h = 1;
   while(h &lt; N/3) {
     h = 3 * h + 1;
   }
-  while(h >= 1) {
+  while(h &gt;= 1) {
     for(var i = h; i&lt;N;i++) {
-      for(var j=i; j>=h &amp;&amp; less(data[j], data[j-h]); j -= h) {
+      for(var j=i; j&gt;=h &amp;&amp; less(data[j], data[j-h]); j -= h) {
         swap(data, j, j-h);
       }
     }
@@ -228,13 +234,14 @@ var less = require('./util').less;</p>
   }
 };
 exports.shell_sort = shell_sort;
-```</p>
+</code></pre>
 
 <h3>运行示例</h3>
 
 <p>[1,5,2,7,3,8,9,0]</p>
 
-<pre><code>这里选取的递增序列为1, 4, 13 ...
+<pre><code>
+这里选取的递增序列为1, 4, 13 ...
 [1,5,2,0,3,8,9,7] h为4, 从第5个元素开始,和第5-i个元素排序, 下面就是普通的插入排序
 [1,2,5,0,3,8,9,7] h为1, 5比2大,和2交换,2比1大,停止
 [0,1,2,5,3,8,9,7] h为1, 0比5小, 交换, 比2小, 交换, 比1小, 交换

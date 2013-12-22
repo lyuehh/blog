@@ -11,7 +11,8 @@
 
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
-
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap-theme.min.css"/>
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap.min.css"/>
     </head>
     <body>
 
@@ -42,7 +43,7 @@
 
 <h2>不要重复</h2>
 
-<p><code>javascript
+<pre><code class="javascript">
 /*
   demo1: do not repeat yourself
 */
@@ -127,11 +128,11 @@ var Ajax = {
 Ajax.get('/user' + '?dept=aaa&amp;active=true', function(data) {
   console.log('data: ' + JSON.stringify(data));
 })
-</code></p>
+</code></pre>
 
 <h2>缓存数据</h2>
 
-<p><code>javascript
+<pre><code class="javascript">
 /* tiny_store.js */
 function Store() {
   this._data = {};
@@ -145,19 +146,19 @@ Store.prototype.get = function(key) {
 Store.prototype.clear = function() {
   this._data = {};
 };
-</code></p>
+</code></pre>
 
-<p><code>javascript
+<pre><code class="javascript">
 var store = new Store();
 Ajax.get('/user', function(data) {
   store.set('user', data);
 });
 console.log(store.get('user')); // use user anywhere else..
-</code></p>
+</code></pre>
 
 <h2>使用高阶函数</h2>
 
-<p><code>javascript
+<pre><code class="javascript">
 /*
 * for loop
 */
@@ -176,11 +177,11 @@ var sum2 = function(arr) {
     return s + i;
   }, 0);
 };
-</code></p>
+</code></pre>
 
 <h2>使用链式操作</h2>
 
-<p><code>javascript
+<pre><code class="javascript">
 // use underscore.js, from http://underscorejs.org/#chain
 var stooges = [{name : 'curly', age : 25}, {name : 'moe', age : 21}, {name : 'larry', age : 23}];
 var youngest = _.chain(stooges)
@@ -189,28 +190,28 @@ var youngest = _.chain(stooges)
   .first()
   .value();
 console.log(youngest);
-</code></p>
+</code></pre>
 
 <h2>使用闭包</h2>
 
-<p><code>javascript
+<pre><code class="javascript">
 (function(){
   // code here...
 }();
-</code></p>
+</code></pre>
 
 <h2>使用'use strict'</h2>
 
-<p><code>javascript
+<pre><code class="javascript">
 (function(){
   'use strict';
   // code here...
 }();
-</code></p>
+</code></pre>
 
 <h2>使用封装</h2>
 
-<p><code>javascript
+<pre><code class="javascript">
 var store = (function() {
   var data;
   var getData = function () {
@@ -228,7 +229,7 @@ var store = (function() {
     clearData: clearData
   };
 })();
-</code></p>
+</code></pre>
 
 <h2>捕获错误</h2>
 
@@ -237,61 +238,61 @@ var store = (function() {
 
 <h3>数组操作</h3>
 
-<p>```javascript
-new Array(-1); // invalid array length</p>
+<pre><code class="javascript">
+new Array(-1); // invalid array length
 
-<p>[1,2,3,4].reduce(function(x,y) {
+[1,2,3,4].reduce(function(x,y) {
  return x*y;
 }); // reduce of empty array with no initial value
-```</p>
+</code></pre>
 
 <h3>URL操作</h3>
 
-<p>```javascript
-decodeURIComponent('%XX'); //malformed URI sequence</p>
+<pre><code class="javascript">
+decodeURIComponent('%XX'); //malformed URI sequence
 
-<p>// 以下操作也会抛出异常
+// 以下操作也会抛出异常
 encodeURI(uri);
 decodeURI();
 encodeURIComponent();
-```</p>
+</code></pre>
 
 <h3>JSON, evel, function</h3>
 
-<p>```javascript</p>
+<pre><code class="javascript">
 
-<p>JSON.parse('xx'); // SyntaxError: JSON.parse
-eval('asdf'); // ReferenceError: asdf is not defined</p>
+JSON.parse('xx'); // SyntaxError: JSON.parse
+eval('asdf'); // ReferenceError: asdf is not defined
 
-<p>new Function('var'); // SyntaxError: missing variable name</p>
+new Function('var'); // SyntaxError: missing variable name
 
-<p>_.include.apply([1,2,3],1);
+_.include.apply([1,2,3],1);
 // TypeError: second argument to Function.prototype.apply must be an array
-```</p>
+</code></pre>
 
 <h3>数字操作</h3>
 
-<p>```javascript
+<pre><code class="javascript">
 var a = 34234234234.2342343;
-a.toExponential(333); // RangeError: precision 333 out of range</p>
+a.toExponential(333); // RangeError: precision 333 out of range
 
-<p>// 这些操作也会
+// 这些操作也会
 toFixed()
 toPrecision()
-```</p>
+</code></pre>
 
 <h3>对象操作</h3>
 
-<p>```javascript
+<pre><code class="javascript">
 Object.create('a');
-//TypeError: Object prototype may only be an Object or null</p>
+//TypeError: Object prototype may only be an Object or null
 
-<p>// 这些操作也会
+// 这些操作也会
 Object.defineProperties('a')
 Object.defineProperty()
 Object.freeze('a')
 Object.isExtensible('a')
-```</p>
+</code></pre>
 
 </div>
 

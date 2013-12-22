@@ -11,7 +11,8 @@
 
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
-
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap-theme.min.css"/>
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap.min.css"/>
     </head>
     <body>
 
@@ -34,13 +35,15 @@
 
 <h3>python:</h3>
 
-<pre><code>import re
+<pre><code>
+import re
 re.search('[0123456789]', '0') != None
 </code></pre>
 
 <h3>javascript:</h3>
 
-<pre><code>/[0123456789]/.test('0');
+<pre><code>
+/[0123456789]/.test('0');
 </code></pre>
 
 <h2>1.2 关于Python的基础知识</h2>
@@ -137,7 +140,7 @@ re.search('[0123456789]', '0') != None
 
 <ul>
 <li><code>\d == [0-9]</code> digit 数字</li>
-<li><code>\w == [0-9a-zA-Z_]</code> word 单词字符 *注意这里包含有下划线<code>_</code>*</li>
+<li><code>\w == [0-9a-zA-Z_]</code> word 单词字符 <em>注意这里包含有下划线<code>_</code></em></li>
 <li><code>\s == [ \t\r\n\v\f]</code> space 空白字符</li>
 <li><code>[\da-zA-Z] == [0-9a-zA-Z]</code></li>
 <li><code>[^0-9] == [^\d]</code></li>
@@ -289,7 +292,8 @@ re.search('[0123456789]', '0') != None
 </ul>
 
 
-<pre><code>##　匹配路径
+<pre><code>
+##　匹配路径
 &gt;&gt;&gt; re.search(r"^.*/", "/usr/local/bin/python").group(0)
 '/usr/local/bin/'
 &gt;&gt;&gt; re.search(r".*/", "/usr/local/bin/python").group(0)
@@ -495,7 +499,8 @@ re.search('[0123456789]', '0') != None
 
 <h3>不同语言中命名分组的记法</h3>
 
-<pre><code>语言     分组记法         反向引用记法     替换时的引用记法
+<pre><code>
+语言     分组记法         反向引用记法     替换时的引用记法
 .NET    (?&lt;name&gt;...)    \k&lt;name&gt;       ${name}
 PHP     (?P&lt;name&gt;...)   (?P=name)      不支持，只能用${num}
 Python  (?P&lt;name&gt;...)   (?P=name)      \g&lt;name&gt;
@@ -581,7 +586,8 @@ Ruby    (?P&lt;name&gt;...)    \k&lt;name&gt;      \k&lt;name&gt;
 </ul>
 
 
-<pre><code>print re.sub(r"\brow\b", r"&lt;span class=\"h1\"&gt;\g&lt;0&gt;&lt;/span&gt;", "a string row, haha")
+<pre><code>
+print re.sub(r"\brow\b", r"&lt;span class=\"h1\"&gt;\g&lt;0&gt;&lt;/span&gt;", "a string row, haha")
 </code></pre>
 
 <h2>4.2 行起始/结束位置</h2>
@@ -608,7 +614,8 @@ Ruby    (?P&lt;name&gt;...)    \k&lt;name&gt;      \k&lt;name&gt;
 
 <h3>多行文本替换</h3>
 
-<pre><code>plainText = "line1\nline2\nline3"
+<pre><code>
+plainText = "line1\nline2\nline3"
 print re.sub(r"(?m)$", "&lt;/p&gt;", re.sub(r"(?m)^","&lt;p", plainText))
 </code></pre>
 
@@ -621,7 +628,8 @@ print re.sub(r"(?m)$", "&lt;/p&gt;", re.sub(r"(?m)^","&lt;p", plainText))
 </ul>
 
 
-<pre><code>名字                    判断方向
+<pre><code>
+名字                    判断方向
 肯定顺序环视       (?=...)
 否定顺序环视       (?!…)
 肯定逆序环视       (?&lt;=…)
@@ -691,6 +699,7 @@ print re.sub(r"(?m)$", "&lt;/p&gt;", re.sub(r"(?m)^","&lt;p", plainText))
 
 
 <pre><code>
+
 .NET  RegexOPtions.IgnoreCase
 Java Pattern.CASE_INSENSTIVE
 JavaScript /regex/i
@@ -786,7 +795,8 @@ Ruby Regexp::IGNORECASE, /regex/i
 
 <h3>6.1.1 字符串转义与正则转义</h3>
 
-<pre><code>字符串文字  字符串/正则文字 正则表达式
+<pre><code>
+字符串文字  字符串/正则文字 正则表达式
 \\n                    \n                    回车
 \\t                    \t                    tab
 \\\\                    \\                    \
@@ -802,7 +812,8 @@ Ruby Regexp::IGNORECASE, /regex/i
 
 <h3>6.1.2 元字符的转义</h3>
 
-<pre><code>记法          转义          说明
+<pre><code>
+记法          转义          说明
 []               \[]               只对开括号转义
 .               \.               
 -               \-               [a\-b]等价于[-ab]
@@ -819,117 +830,89 @@ Ruby Regexp::IGNORECASE, /regex/i
 (…|…)               (…|…)
 ^                    ^
 $                    \$
-$num               \$或$$
-```</p>
-
-<h3>6.1.3 彻底消除元字符的特殊含义</h3>
-
-<ul>
-<li><code>\Qca*t\E</code> 只有Java和PHP支持</li>
-<li>其他语言支持<code>escape</code>方法或<code>quote</code>方法，除JavaScript外</li>
-</ul>
-
-
-<h3>6.1.4 字符组的转义</h3>
-
-<ul>
-<li>字符组里，<code>]</code>, <code>-</code>, <code>^</code>需要转义</li>
-</ul>
-
-
-<h2>6.2 正则表达式的处理形式</h2>
-
-<h3>6.2.1 函数式处理</h3>
-
-<p>调用对应函数，将正则表达式和字符串作为参数传入即可。比如Python和PHP。</p>
-
-<h3>6.2.2 面向对象式处理</h3>
-
-<p>生成正则表达式对象，调用对象的成员函数。比如Java和.NET。</p>
-
-<h3>6.2.3 比较</h3>
-
-<ul>
-<li>面向对象式：步骤分明，效率更高</li>
-<li>函数式：方便，代码简洁</li>
-</ul>
-
-
-<h3>6.2.4 线程安全性</h3>
-
-<ul>
-<li>正则表达式对象和匹配结果对象</li>
-<li>多个线程可以共享一个正则表达式对象，但操作不同的文本时，对应每个线程生成专属的匹配结果对象</li>
-</ul>
-
-
-<h2>6.3 表达式中的优先级</h2>
-
-<h3>4种组合关系</h3>
-
-<ul>
-<li>普通拼接 abc</li>
-<li>括号 (abc)</li>
-<li>量词 a*b</li>
-<li>多选结构 ab|cd</li>
-</ul>
-
-
-<h3>优先级</h3>
-
-<ol>
-<li>(regex) 整个括号里的子表达式成为单个元素</li>
-<li><ul>
-<li>? + 限定之前紧邻的元素</li>
-</ul>
-</li>
-<li>abc 普通拼接，元素相继出现</li>
-<li>a|bc 多选结构</li>
-</ol>
-
-
-<h1>第7章 Unicode</h1>
-
-<h2>7.1 关于编码</h2>
-
-<ul>
-<li>ASCII字符</li>
-<li>非ASCII字符</li>
-</ul>
-
-
-<h2>7.2 推荐使用Unicode编码</h2>
-
-<p>略。。</p>
-
-<h2>7.3 Unicode匹配规则</h2>
-
-<ul>
-<li>ASCII匹配规则</li>
-<li>Unicode匹配规则</li>
-</ul>
-
-
-<h2>7.4 单词边界</h2>
-
-<ul>
-<li>Unicode中的单词边界</li>
-</ul>
-
-
-<h2>7.5 码值</h2>
-
-<h3>发(53d1)的表示方法</h3>
+$num               \$或$$</p>
 
 <pre><code>
-语言     表示法
+
+### 6.1.3 彻底消除元字符的特殊含义
+
+* `\Qca*t\E` 只有Java和PHP支持
+* 其他语言支持`escape`方法或`quote`方法，除JavaScript外
+
+### 6.1.4 字符组的转义
+
+* 字符组里，`]`, `-`, `^`需要转义
+
+## 6.2 正则表达式的处理形式
+
+### 6.2.1 函数式处理
+
+调用对应函数，将正则表达式和字符串作为参数传入即可。比如Python和PHP。
+
+### 6.2.2 面向对象式处理
+
+生成正则表达式对象，调用对象的成员函数。比如Java和.NET。
+
+### 6.2.3 比较
+
+* 面向对象式：步骤分明，效率更高
+* 函数式：方便，代码简洁
+
+### 6.2.4 线程安全性
+
+* 正则表达式对象和匹配结果对象
+* 多个线程可以共享一个正则表达式对象，但操作不同的文本时，对应每个线程生成专属的匹配结果对象
+
+## 6.3 表达式中的优先级
+
+### 4种组合关系
+
+* 普通拼接 abc
+* 括号 (abc)
+* 量词 a*b
+* 多选结构 ab|cd
+
+### 优先级
+
+1. (regex) 整个括号里的子表达式成为单个元素
+2. * ? + 限定之前紧邻的元素
+3. abc 普通拼接，元素相继出现
+4. a|bc 多选结构
+
+# 第7章 Unicode
+
+## 7.1 关于编码
+
+* ASCII字符
+* 非ASCII字符
+
+## 7.2 推荐使用Unicode编码
+
+略。。
+
+## 7.3 Unicode匹配规则
+
+* ASCII匹配规则
+* Unicode匹配规则
+
+## 7.4 单词边界
+
+* Unicode中的单词边界
+
+## 7.5 码值
+
+### 发(53d1)的表示方法
+</code></pre>
+
+<p>语言     表示法
 .NET      \u53d1
 Java       \u53d1
 JavaScript \u53d1
 Python     \u53d1
 PHP          \x{53d1}
-Ruby         \u{53d1}
-</code></pre>
+Ruby         \u{53d1}</p>
+
+<p>```</p>
 
 <h3>汉字的表示</h3>
 

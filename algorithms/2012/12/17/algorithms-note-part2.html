@@ -11,7 +11,8 @@
 
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
-
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap-theme.min.css"/>
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap.min.css"/>
     </head>
     <body>
 
@@ -54,19 +55,19 @@
 
 <p>从index开始，将后面的元素向左移动一位。</p>
 
-<p>```javascript part2: array_list.js
-/<em>
+<pre><code class="javascript part2: array_list.js">
+/*
  * array_list
- </em>/</p>
+ */
 
-<p>'use strict';</p>
+'use strict';
 
-<p>function ArrayList() {
+function ArrayList() {
   this.data = [];
   this.length = 0;
-}</p>
+}
 
-<p>ArrayList.prototype = {
+ArrayList.prototype = {
   constructor: ArrayList,
   append: function (item) {
     this.data[this.length] = item;
@@ -100,7 +101,7 @@
   },
   insert: function (index, item) {
     this.check(item);
-    for (var i = this.length; i >= index; i -= 1) {
+    for (var i = this.length; i &gt;= index; i -= 1) {
       this.data[i] = this.data[i-1];
     }
     this.data[index] = item;
@@ -110,14 +111,14 @@
     if(typeof index !== 'number') {
       throw 'index should be number';
     }
-    if(index &lt; 0 || index > this.length) {
+    if(index &lt; 0 || index &gt; this.length) {
       throw 'index should large than 0 and less than this.size()';
     }
   }
-};</p>
+};
 
-<p>module.exports = ArrayList;
-```</p>
+module.exports = ArrayList;
+</code></pre>
 
 <h2>线性表的链表实现</h2>
 
@@ -149,40 +150,38 @@ current为current的next，当i等于index时，previous为所查找节点的上
 
 <h3>代码</h3>
 
-<p>```javascript
-/<em>
+<pre><code class="javascript">
+/*
  * linkedlist
- </em>/</p>
+ */
 
-<p>'use strict';</p>
+'use strict';
 
-<p>function Node(item) {
+function Node(item) {
   this.item = item;
   this.next = null;
-}</p>
-
-<p>function LinkedList() {
-  this.head = null;
-}</p>
-
-<p>LinkedList.prototype = {</p>
-
-<p>  constructor: LinkedList,
-  append: function (item) {
-    var node = new Node(item);</p>
-
-<pre><code>if(this.head === null) {
-  this.head = node;
-} else {
-  var current = this.head;
-  while(current.next) {
-    current = current.next;
-  }
-  current.next = node;
 }
-</code></pre>
 
-<p>  },
+function LinkedList() {
+  this.head = null;
+}
+
+LinkedList.prototype = {
+
+  constructor: LinkedList,
+  append: function (item) {
+    var node = new Node(item);
+
+    if(this.head === null) {
+      this.head = node;
+    } else {
+      var current = this.head;
+      while(current.next) {
+        current = current.next;
+      }
+      current.next = node;
+    }
+  },
   remove: function (index) {
     this.check(index);
     var current = this.head,
@@ -221,37 +220,42 @@ current为current的next，当i等于index时，previous为所查找节点的上
     if(typeof index !== 'number') {
       throw 'index should be number';
     }
-    if(index &lt; 0 || index > this.length) {
+    if(index &lt; 0 || index &gt; this.length) {
       throw 'index should large than 0 and less than this.size()';
     }
   }
-};</p>
+};
 
-<p>module.exports = LinkedList;</p>
+module.exports = LinkedList;
+</code></pre>
 
-<pre><code>
-## 双链表
-双向链表的每个节点有2个指针，一个指向后继结点，一个指向前驱节点，使用双向链表，可以从
-链表任一节点出发，向前或者向后访问节点。  
+<h2>双链表</h2>
 
-### add操作
-根据item创建node，如果当前链表为空，则将head和tail指向node；否则，将tail的next指向node，
-将node的prev指向tail，将tail指向node。然后将length加1。
+<p>双向链表的每个节点有2个指针，一个指向后继结点，一个指向前驱节点，使用双向链表，可以从
+链表任一节点出发，向前或者向后访问节点。</p>
 
-### get操作
-将current指向head，设置i为0；循环i&lt;index，将current指向current的next，然后将i加1，
-当i等于index时，表明当前的current即为查找的节点，返回current.item。
+<h3>add操作</h3>
 
-### remove操作
-将current指向head，设置i为0；当index为0时，表明将移除head所指向的节点，将head指向current的next，
+<p>根据item创建node，如果当前链表为空，则将head和tail指向node；否则，将tail的next指向node，
+将node的prev指向tail，将tail指向node。然后将length加1。</p>
+
+<h3>get操作</h3>
+
+<p>将current指向head，设置i为0；循环i&lt;index，将current指向current的next，然后将i加1，
+当i等于index时，表明当前的current即为查找的节点，返回current.item。</p>
+
+<h3>remove操作</h3>
+
+<p>将current指向head，设置i为0；当index为0时，表明将移除head所指向的节点，将head指向current的next，
 这时需要判断head是否为空，如果为空，则表明链表只有1个元素，这时需要将tail也设置为null，
 否则将head的prev指向null；当index和lengt-1相等，表明将移除tail所指向的节点，将current指向tail，
 将tail指向current的prev,将tail的next指向null，(这里current的用途是保存旧的尾节点);
 如果不属于以上两种情况，循环i&lt;index,将current指向current的next，然后将i加1，当i等于
-index时，将current的prev的next指向current的next即可。
+index时，将current的prev的next指向current的next即可。</p>
 
-### 代码
-```javascript
+<h3>代码</h3>
+
+<pre><code class="javascript">
 function Node(item) {
   this.item = null;
   this.prev = null;

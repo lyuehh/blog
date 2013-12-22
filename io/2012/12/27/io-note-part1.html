@@ -11,7 +11,8 @@
 
         <!-- Custom CSS -->
         <link rel="stylesheet" href="/css/main.css">
-
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap-theme.min.css"/>
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap.min.css"/>
     </head>
     <body>
 
@@ -28,7 +29,8 @@
 <div id="post">
 <h2>创建1个对象</h2>
 
-<pre><code>Io&gt; A := Object clone
+<pre><code>
+Io&gt; A := Object clone
 </code></pre>
 
 <p>:= 表示不存在则创建，存在则复制<br/>
@@ -38,24 +40,30 @@
 
 <h2>给对象槽赋值</h2>
 
-<pre><code>Io&gt; A say := "I'm saying, haha"
+<pre><code>
+Io&gt; A say := "I'm saying, haha"
 </code></pre>
 
-<p>相当于js里的
-<code>
+<p>相当于js里的</p>
+
+<pre><code>
 A = {
   say: "I'm saying, haha"
 };
-</code>
-获取槽里的值
-<code>
+</code></pre>
+
+<p>获取槽里的值</p>
+
+<pre><code>
 Io&gt; A say
-</code>
-相当于js里的<code>A.say</code></p>
+</code></pre>
+
+<p>相当于js里的<code>A.say</code></p>
 
 <h2>查看所有槽</h2>
 
-<pre><code>Io&gt; A slotNames
+<pre><code>
+Io&gt; A slotNames
 ==&gt; list(type, say)
 </code></pre>
 
@@ -63,76 +71,90 @@ Io&gt; A say
 
 <h2>继承</h2>
 
-<pre><code>Io&gt; A := Object clone
+<pre><code>
+Io&gt; A := Object clone
 Io&gt; A say:= "say, haha"
 Io&gt; Car := A clone
 Io&gt; Car say
 ==&gt; say haha
 </code></pre>
 
-<p>car里没有say，它就直接把say消息直接转发给A
-<code>
+<p>car里没有say，它就直接把say消息直接转发给A</p>
+
+<pre><code>
 Io&gt; fa := Car clone
 Io&gt; fa slotNames
 ==&gt; list()
 Io&gt; fa type
 ==&gt; Car
-</code>
-io里约定大写字母开头的是类型，小写字母开头的也是对象，但不是类型<br/>
+</code></pre>
+
+<p>io里约定大写字母开头的是类型，小写字母开头的也是对象，但不是类型<br/>
 在io里，对象是槽的容器，发送槽名给槽可以获得该槽，如果该槽不存在，则调用父对象的槽。</p>
 
 <h2>方法</h2>
 
-<pre><code>method("a, haha" println)
+<pre><code>
+method("a, haha" println)
 </code></pre>
 
-<p>创建一个方法，类似js里的
-<code>
+<p>创建一个方法，类似js里的</p>
+
+<pre><code>
 function() {
   console.log('a, haha');
 }
-</code>
-<code>
+</code></pre>
+
+<pre><code>
 Io&gt; method() type
 ==&gt; Block
-</code>
-方法的类型是Block
-<code>
+</code></pre>
+
+<p>方法的类型是Block</p>
+
+<pre><code>
 Io&gt; Car drive := method("Drive" println)
 ==&gt; method(
     "Drive" println
 )
-</code>
-给Car添加一个方法 drive，相当于js里的
-<code>
+</code></pre>
+
+<p>给Car添加一个方法 drive，相当于js里的</p>
+
+<pre><code>
 Car.drive = function() {
   console.log('Drive');
 };
-</code>
-因为fa继承Car，所以fa可以直接调用drive
-<code>
+</code></pre>
+
+<p>因为fa继承Car，所以fa可以直接调用drive</p>
+
+<pre><code>
 Io&gt; fa drive
 Drive
 ==&gt; Drive
-</code></p>
+</code></pre>
 
 <h2>获取槽中的内容</h2>
 
 <p>可以给对象发送getSlot来获取槽中的内容，无论是变量还是方法<br/>
-如果该槽不存在，getSlot会提供父对象的槽
-<code>
+如果该槽不存在，getSlot会提供父对象的槽</p>
+
+<pre><code>
 Io&gt; fa getSlot("drive")
 ==&gt; method(
     "Drive" println
 )
 IO&gt; fa getSlot("type")
 ==&gt; Car
-</code></p>
+</code></pre>
 
 <h2>获取对象的原型</h2>
 
-<p>可以给对象发送proto获取对象的原型
-<code>
+<p>可以给对象发送proto获取对象的原型</p>
+
+<pre><code>
 Io&gt; fa proto
 ==&gt; Car_0x7f81f8caa5a0:
   drive = method(…)
@@ -141,12 +163,13 @@ Io&gt; Car proto
 ==&gt; A_0x7f81f8e70230:
   say = "say haha"
   type = "A"
-</code></p>
+</code></pre>
 
 <h2>主命名空间</h2>
 
-<p>Lobby是主命名空间，包含了所有的已命名对象
-<code>
+<p>Lobby是主命名空间，包含了所有的已命名对象</p>
+
+<pre><code>
 Io&gt; Lobby
 ==&gt; Object_0x7f81f8c1ba20:
   A = A_0x7f81f8e70230
@@ -158,23 +181,27 @@ Io&gt; Lobby
   fa = Car_0x7f81f8e83840
   forward = method(…)
   set_ = method(…)
-</code>
-你可以看到exit的实现，forward，Protos和我们自定义的东西
-查看exit的实现
-<code>
+</code></pre>
+
+<p>你可以看到exit的实现，forward，Protos和我们自定义的东西
+查看exit的实现</p>
+
+<pre><code>
 Io&gt; Lobby getSlot("exit")
 ==&gt; # [unlabeled]:0
 method(
     CLI stop
 )
-</code>
-Protos的实现
-<code>
+</code></pre>
+
+<p>Protos的实现</p>
+
+<pre><code>
 Io&gt; Lobby getSlot("Protos")
 ==&gt; Object_0x7f81f8c1ad00:
   Addons = Object_0x7f81f8c1be30
   Core = Object_0x7f81f8c1b9b0
-</code></p>
+</code></pre>
 
 <h2>基本准则</h2>
 
@@ -197,7 +224,8 @@ Io&gt; Lobby getSlot("Protos")
 
 <h2>创建列表</h2>
 
-<pre><code>Io&gt; todos := list("eat", "sleep")
+<pre><code>
+Io&gt; todos := list("eat", "sleep")
 ==&gt; list(eat, sleep)
 Io&gt; todos size
 ==&gt; 2
@@ -205,13 +233,16 @@ Io&gt; todos append("talk")
 ==&gt; list(eat, sleep, talk)
 </code></pre>
 
-<p>Io在表示列表时有一种快捷方式，由Object对象提供的list方法。它能把传入方法的参数包装起来形成列表，使用list方法，我们可以这样创建列表:
-<code>
+<p>Io在表示列表时有一种快捷方式，由Object对象提供的list方法。它能把传入方法的参数包装起来形成列表，使用list方法，我们可以这样创建列表:</p>
+
+<pre><code>
 Io&gt; Io&gt; list(1, 2, 3, 4)
 ==&gt; list(1, 2, 3, 3, 4)
-</code>
-对列表进行数学运算，或是当做其他数据类型(比如栈)，List对象也提供了各种简便方法:
-<code>
+</code></pre>
+
+<p>对列表进行数学运算，或是当做其他数据类型(比如栈)，List对象也提供了各种简便方法:</p>
+
+<pre><code>
 Io&gt; list(1, 2, 3, 4) average
 ==&gt; 2.5
 Io&gt; list(1, 2, 3, 4) sum
@@ -226,9 +257,11 @@ Io&gt; list(1, 2, 3, 4) prepend(0)
 ==&gt; list(0, 1, 2, 3, 4)
 Io&gt; list() isEmpty
 ==&gt; true
-</code>
-另一种主要集合是Map对象，像是ruby的散列表，这个没有语法糖，必须用API操作:
-<code>
+</code></pre>
+
+<p>另一种主要集合是Map对象，像是ruby的散列表，这个没有语法糖，必须用API操作:</p>
+
+<pre><code>
 Io&gt; p := Map clone
 ==&gt; Map_0x7f81f8e4d8d0:
 Io&gt; p atPut("name", "zhangsan")
@@ -247,12 +280,14 @@ Io&gt; p keys
 ==&gt; list(name, style)
 Io&gt; p size
 ==&gt; 2
-</code>
-散列表和Io对象很像，散列表的键就是一个个绑定了值的槽。</p>
+</code></pre>
+
+<p>散列表和Io对象很像，散列表的键就是一个个绑定了值的槽。</p>
 
 <h2>布尔值 true false nil 和单例</h2>
 
-<pre><code>Io&gt; 4 &lt; 5
+<pre><code>
+Io&gt; 4 &lt; 5
 ==&gt; true
 Io&gt; 4 &lt;= 3
 ==&gt; false
@@ -270,28 +305,32 @@ Io&gt; true and 0
 ==&gt; true
 </code></pre>
 
-<p>和ruby一样，0是true，而true又是什么呢
-<code>
+<p>和ruby一样，0是true，而true又是什么呢</p>
+
+<pre><code>
 Io&gt; true pro to
 ==&gt; Object_0x7f81f8c04010:
                    = Object_()
   != = Object_!=()
   - = Object_-()
 … 省略一堆
-</code>
-<code>
+</code></pre>
+
+<pre><code>
 Io&gt; true clone
 ==&gt; true
 Io&gt; false clone
 ==&gt; false
 Io&gt; nil clone
 ==&gt; nil
-</code>
-true, false, nil都是单例，复制它们，返回的只是单例对象的值</p>
+</code></pre>
+
+<p>true, false, nil都是单例，复制它们，返回的只是单例对象的值</p>
 
 <h2>创建自己的单例对象</h2>
 
-<pre><code>Io&gt; S := Object clone
+<pre><code>
+Io&gt; S := Object clone
 ==&gt; S_0x7f81f8ef0f40:
   type = "S"
 Io&gt; S clone := S
@@ -318,16 +357,19 @@ Io&gt; s1 == s2
 
 <h2>小心</h2>
 
-<p>Io里你几乎可以改变任何对象上的任何一个槽，比如这样
-<code>
+<p>Io里你几乎可以改变任何对象上的任何一个槽，比如这样</p>
+
+<pre><code>
 Io&gt; Object clone := "haha"
-</code>
-因为你覆盖了Object上的clone方法，从此你无法再创建对象了，只能终止进程重新开始。
+</code></pre>
+
+<p>因为你覆盖了Object上的clone方法，从此你无法再创建对象了，只能终止进程重新开始。
 当然这些自由在实现特定领域语言(DSL: domian-specific language)时非常方便。</p>
 
 <h2>基础类型的方法</h2>
 
-<pre><code>Io&gt; true slotNames
+<pre><code>
+Io&gt; true slotNames
 ==&gt; list(asSimpleString, asString, not, ifFalse, else, ifTrue, or, type, justSerialized, clone, elseif, then)
 Io&gt; Object slotNames
 ==&gt; list(slotSummary, ownsSlots, and, apropos, foreachSlot, performWithArgList, coroWith, &lt;, actorRun, removeAllSlots, for, isTrue, clone, become, !=, write, switch, setSlotWithType, method, ancestors, futureSend, resend, isActivatable, lazySlot, list, justSerialized, evalArg, uniqueId, @@, do, thisContext, deprecatedWarning, setProto, println, hasProto, writeln, setSlot, handleActorException, inlineMethod, ifNonNil, isKindOf, setIsActivatable, removeAllProtos, coroFor, pause, continue, ifNil, stopStatus, prependProto, ancestorWithSlot, print, protos, evalArgAndReturnSelf, doString, type, ?, return, break, &gt;, message, ==, currentCoro, slotNames, hasLocalSlot, while, perform, serialized, ifNonNilEval, wait, asString, returnIfNonNil, getLocalSlot, or, getSlot, asSimpleString, compare, coroDoLater, hasDirtySlot, slotDescriptionMap, removeProto, appendProto, in, isNil, uniqueHexId, loop, lexicalDo, not, .., doRelativeFile, try, launchFile, , yield, isError, ifNilEval, init, evalArgAndReturnNil, doFile, serializedSlotsWithNames, argIsActivationRecord, returnIfError, isIdenticalTo, super, isLaunchScript, serializedSlots, cloneWithoutInit, hasSlot, contextWithSlot, thisLocalContext, &gt;=, if, relativeDoFile, memorySize, &lt;=, asyncSend, thisMessage, @, markClean, coroDo, slotValues, -, doMessage, proto, ifError, newSlot, updateSlot, removeSlot, shallowCopy, block, actorProcessQueue, raiseIfError, setProtos, argIsCall)
