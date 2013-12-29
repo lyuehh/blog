@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>JavaScript学习笔记 - 一些quiz</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap-theme.min.css"/>
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap.min.css"/>
+    </head>
+    <body>
+
+        <div class="container">
+          <div class="site">
+            <div class="header">
+              <h1 class="title"><a href="/index.html">blog</a></h1>
+              <a class="extra" href="/about.html">about</a>
+            </div>
+
+            <h2>JavaScript学习笔记 - 一些quiz</h2>
+<p class="meta">2013-12-29 17:45</p>
+
+<div id="post">
+<h2>intro</h2>
+
+<p>共有50多到和js相关的题, 这里不提供答案, 建议不要直接贴到<code>console</code>里测试, 先思考一下, 然后去查资料, 知道为什么最好.. <br/>
+注意这里有一小部分题是和平台有关的, 在ie下和在chrome, firefox里结果不一样, 这样的题不多, 注意着点...</p>
+
+<h2>part1</h2>
+
+<pre><code class="javascript">// http://dmitry.baranovskiy.com/post/91403200
+
+//## 1
+if (!("a" in window)) {
+    var a = 1;
+}
+alert(a);
+
+//## 2
+var a = 1,
+    b = function a(x) {
+        x &amp;&amp; a(--x);
+    };
+alert(a);
+
+//## 3
+function a(x) {
+    return x * 2;
+}
+var a;
+alert(a);
+
+//## 4
+function b(x, y, a) {
+    arguments[2] = 10;
+    alert(a);
+}
+b(1, 2, 3);
+
+//## 5
+function a() {
+    alert(this);
+}
+a.call(null); 
+</code></pre>
+
+<h2>part2</h2>
+
+<pre><code class="javascript">
+// http://dmitrysoshnikov.com/ecmascript/the-quiz/
+
+//## 1
+typeof typeof(null)
+
+
+//## 2
+typeof foo == 'undefined'
+typeof foo === 'undefined'
+
+
+//## 3
+100['toString']['length']
+'asdf'.['toString']['length']
+
+//## 4
+var a = (1,5 - 1) * 2
+
+
+//## 5
+var x = 10;
+var foo = {
+  x: 20,
+  bar: function () {
+    var x = 30;
+    return this.x;
+
+  }
+};
+
+console.log(
+  foo.bar(),
+  (foo.bar)(),
+  (foo.bar = foo.bar)(),
+  (foo.bar, foo.bar)()
+);
+
+
+//## 6
+function f(x, y) {
+  x = 10;
+  console.log(
+    arguments[0],
+    arguments[1]
+  );
+}
+f();
+
+
+//## 7
+var
+  b = 10,
+  c = (
+    20,
+    function (x) { return x + 100},
+    function () { return arguments[0]}
+  );
+a = b + c
+({x: 10}).x
+
+
+//## 8
+1..z
+
+
+//## 9
+({
+  x: 10,
+  foo: function () {
+    function bar() {
+      console.log(x);
+      console.log(y);
+      console.log(this.x);
+    }
+    with (this) {
+      var x = 20;
+      var y = 30;
+      bar.call(this);
+    }
+  }
+}).foo();
+
+
+//## 10
+// 这个不太明白...
+foreach (k in {a: 10, b: 20})
+{
+  // ...
+}
+</code></pre>
+
+<h2>part3</h2>
+
+<pre><code class="javascript">
+
+ // http://www.nczonline.net/blog/2010/02/16/my-javascript-quiz/
+
+//Example #1
+
+var num1 = 5,
+    num2 = 10,
+    result = num1+++num2;
+
+/*
+Questions:
+   * What is the value of result?
+   * What is the value of num1?
+   * What is the value of num2?
+*/
+
+//Example #2
+
+var x = 5,
+    o = {
+        x: 10,
+        doIt: function doIt(){
+            var x = 20;
+            setTimeout(function(){
+                alert(this.x);
+            }, 10);
+        }
+    };
+o.doIt();
+
+/*
+Questions:
+   * What value is displayed in the alert?
+*/
+
+//Example #3
+
+var num1 = "10",
+    num2 = "9";
+
+/*
+Questions:
+   * What is the value of num1 &lt; num2?
+   * What is the value of +num1 &lt; num2?
+   * What is the value of num1 + num2?
+   * What is the value of +num1 + num2?
+*/
+
+//Example #4
+
+var message = "Hello world!";
+
+/*
+Questions:
+   * What is the value of message.substring(1, 4)?
+   * What is the value of message.substr(1,4)?
+*/
+//Example #5
+
+var o = {
+        x: 8,
+        valueOf: function(){
+            return this.x + 2;
+        },
+        toString: function(){
+            return this.x.toString();
+        }
+    },
+    result = o &lt; "9";
+
+alert(o);
+
+/*
+Questions:
+   * What is the value result?
+   * What is the value displayed in the alert?
+*/
+</code></pre>
+
+<h2>part4</h2>
+
+<pre><code class="javascript">// http://perfectionkills.com/javascript-quiz/
+
+// ## 1
+(function(){
+     return typeof arguments;
+})();
+
+// ## 2
+var f = function g(){ 
+     return 23; 
+}; 
+typeof g(); 
+
+// ## 3
+(function(x){
+     delete x;
+     return x;
+})(1); 
+
+// ## 4
+var y = 1, x = y = typeof x;
+x;
+
+// ## 5
+(function f(f){
+     return typeof f();
+})(function(){
+     return 1;
+});
+
+// ## 6
+var foo = {
+     bar: function() { 
+          return this.baz; 
+     }, 
+     baz: 1
+};
+(function(){
+     return typeof arguments[0]();
+})(foo.bar); 
+
+// ## 7
+var foo = {
+     bar: function(){
+          return this.baz; 
+     }, 
+     baz: 1 
+} 
+typeof (f = foo.bar)(); 
+
+// ## 8
+var f = (function f(){
+     return "1";
+}, 
+function g(){ 
+     return 2; 
+})();
+typeof f; 
+
+// ## 9
+var x = 1;
+if (function f(){}) { 
+     x += typeof f; 
+}
+x; 
+
+// ## 10
+var x = [typeof x, typeof y][1];
+typeof typeof x;
+
+// ## 11
+(function(foo) {
+    return typeof foo.bar;
+})({
+    foo: {
+        bar: 1
+    }
+});
+
+// ## 12
+(function f() {
+     function f() {
+         return 1;
+     }
+     return f();
+
+     function f() {
+         return 2;
+     }
+ })();
+
+// ## 13
+function f() {
+    return f;
+}
+new f() instanceof f;
+
+// ## 14
+with(function(x, undefined) {}) length;
+</code></pre>
+
+<h2>part5</h2>
+
+<pre><code class="javascript">http://madebyknight.com/javascript-scope/
+
+// ## 1
+function() {
+    var a = 10;
+    if(a &gt; 5) {
+        a = 7;
+    }
+    alert(a);
+}
+
+// ## 2
+function() {
+    if(true) {
+        var a = 5;
+    }
+    alert(a);
+}
+
+// ## 3
+var a = 5;
+function first() {
+    a = 6;
+}
+
+
+function second() {
+    alert(a);
+}
+
+// ## 4
+function first() {
+    window.a = 3;
+}
+
+function second() {
+    alert(a);
+}
+
+// ## 5
+var a = 5;
+function() {
+    var a = 7;
+    alert(a);
+}
+
+// ## 6
+var a = 6;
+function test() {
+    var a = 7;
+    function again() {
+        var a = 8;
+        alert(a);  // First
+    }
+    again();
+    alert(a);  // Second
+}
+test();
+alert(a);  // Third
+
+// ## 7
+function getFunc() {
+    var a = 7;
+    return function(b) {
+        alert(a+b);
+    }
+}
+var f = getFunc();
+f(5);
+</code></pre>
+
+<h2>part6</h2>
+
+<pre><code class="javascript">
+// ## 1
+Function.prototype.toString.call({
+    name: 'F',
+    body: 'print("Javascript is hard")'
+});
+
+// ## 2
+new String({
+    toString : function (){ return this;},
+    valueOf : function () {return this;}
+});
+
+// ## 3
+typeof (new Date() + new Date());
+
+
+// ## 4
+typeof (void null);
+
+// ## 5
+function F() {}
+F.prototype = new Function;
+Object.prototype.toString.call(new F());
+
+// ## 6
+[].length = -2;
+
+// ## 7
+var D = Math.pow(2, 33);
+(D | D) == D; 
+
+// ## 8
+'_string_'.replace(/^/, "$'");
+
+// ## 9
+eval('typeof F; function F() {}');
+
+// ## 10
+null &gt; 0
+null == 0
+null &gt;= 0
+
+// ## 11
+undefined &gt; 0
+undefined &lt; 0
+undefined == 0
+
+// ## 12
+NaN &gt; 0 // false
+NaN &lt; 0 // false
+NaN == 0 // false
+</code></pre>
+
+</div>
+
+
+            <div class="footer">
+              <div class="contact">
+                <div>lyuehh</div>
+                <div>programmer</div>
+                <div>lyuehh^gmail.com</div>
+              </div>
+              <div class="contact">
+                <a href="http://github.com/lyuehh/">github.com/lyuehh</a><br />
+                <a href="http://twitter.com/lyuehh/">twitter.com/lyuehh</a><br />
+                <a href="http://weibo.com/lyused/">weibo.com/lyused</a><br />
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- /container -->
+
+    </body>
+</html>
