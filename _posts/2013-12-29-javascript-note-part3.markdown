@@ -466,8 +466,8 @@ undefined < 0
 undefined == 0
 
 // ## 12
-NaN > 0 // false
-NaN < 0 // false
-NaN == 0 // false
+NaN > 0
+NaN < 0
+NaN == 0
 
 ```
