@@ -6,6 +6,10 @@ comments: true
 categories: javascript
 ---
 
+## intro
+共有50多到和js相关的题, 这里不提供答案, 建议不要直接贴到`console`里测试, 先思考一下, 然后去查资料, 知道为什么最好..   
+注意这里有一小部分题是和平台有关的, 在ie下和在chrome, firefox里结果不一样, 这样的题不多, 注意着点...
+
 ## part1
 
 ```javascript
