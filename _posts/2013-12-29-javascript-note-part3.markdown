@@ -150,7 +150,6 @@ foreach (k in {a: 10, b: 20})
 
 ```javascript
 
-
  // http://www.nczonline.net/blog/2010/02/16/my-javascript-quiz/
 
 //Example #1
@@ -415,6 +414,8 @@ f(5);
 
 
 ## part6
+
+//http://www.cnblogs.com/ziyunfei/archive/2012/10/04/2711370.html
 
 ```javascript
 
