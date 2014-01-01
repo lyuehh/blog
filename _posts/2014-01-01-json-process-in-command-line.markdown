@@ -12,26 +12,26 @@ categories: json
 
 ## 准备工作
 
-* `brew`, `OS X`的包管理工具, 没有的话请先安装<http://brew.sh/>
-* `python`, 编程语言, 系统自带
-* `ruby`, 编程语言, 系统自带
-* `node`, 基于`v8`的`javascript`平台, `brew install node`
-* `go`, 编程语言, Google出品, `brew install go`
+* `brew`, `OS X`的包管理工具, 没有的话请先安装, <http://brew.sh/>
+* `python`, 编程语言, 系统自带, <http://python.org>
+* `ruby`, 编程语言, 系统自带, <https://www.ruby-lang.org/en/>
+* `node`, 基于`v8`的`javascript`平台, `brew install node`, <http://nodejs.org>
+* `go`, 编程语言, Google出品, `brew install go`, <http://golang.org>
 * `R`, 编程语言, 擅长计算机统计和画图, <http://www.r-project.org/>
-* `pip`, `python`的包管理工具, 如果没有的话, 先安装`easy_install pip`
-* `gem`, `ruby`的包管理工具, 自带了
-* `npm`, `node`的包管理工具, 安装完`node`就有了
+* `pip`, `python`的包管理工具, 安装`easy_install pip`, <https://pypi.python.org/pypi/pip>
+* `gem`, `ruby`的包管理工具, 自带了, <http://rubygems.org>
+* `npm`, `node`的包管理工具, 安装完`node`就有了, <https://npmjs.org>
 
 ## 用到的工具
 
-* `curl`, 下载工具, 系统自带
-* `wget`, 另一个下载工具, `brew install wget`
-* `yajl`, `C`语言编写的`json`库, 安装: `brew install yajl`
-* `pygmentize`, `ruby`语言的`Pygments`绑定, `Pygments`是用`python`编写的代码高亮工具
-* `jq`, `C`编写的命令行`json`处理工具, `brew install jq`
-* `json2csv`, `go`编写的`json`转`csv`工具, `go get github.com/jehiah/json2csv`
-* `csvkit`, `python`编写的`csv`格式处理工具, `sudo pip install csvkit`
-* `xml2json`, `javascript`编写的`xml`转`json`工具, `npm install -g xml2json-command`
+* `curl`, 下载工具, 系统自带, <http://curl.haxx.se>
+* `wget`, 另一个下载工具, `brew install wget`, <http://www.gnu.org/software/wget/>
+* `yajl`, `C`语言编写的`json`库, 安装: `brew install yajl`, <http://lloyd.github.io/yajl/>
+* `pygmentize`, `ruby`语言的`Pygments`绑定, `Pygments`是用`python`编写的代码高亮工具, <http://pygments.org/>
+* `jq`, `C`编写的命令行`json`处理工具, `brew install jq`, <http://stedolan.github.io/jq/>
+* `json2csv`, `go`编写的`json`转`csv`工具, `go get github.com/jehiah/json2csv`, <https://github.com/jehiah/json2csv>
+* `csvkit`, `python`编写的`csv`格式处理工具, `sudo pip install csvkit`, <https://github.com/onyxfish/csvkit>
+* `xml2json`, `javascript`编写的`xml`转`json`工具, `npm install -g xml2json-command`, <https://github.com/parmentf/xml2json>
 
 ## 获取`json`文件
 
@@ -41,44 +41,112 @@ categories: json
 
 ## 查看`json`文件
 
-```shell
-$ cat registry.json
 ```
-
+cat registry.json
 ```
-{"db_name":"registry","doc_count":52964,"doc_del_count":4875,"update_seq":870607,"purge_seq":0,"compact_running":false,"disk_size":208315547783,"data_size":175867283928,"instance_start_time":"1388433643562558","disk_format_version":6,"committed_update_seq":870607}
-``
 
 ## 校验`json`
 
-### 1. yajl
-
-```shell
-$ cat registry.json | json_verify`
-```
-
-
-### 2. python
 
 ```
-$ cat invalid.json | python -mjson.tool
+cat registry.json | json_verify
+```
+
+或者:
+
+```
+cat invalid.json | python -mjson.tool
 ```
 
 ## 格式化`json`
 
-### 1. yajl
+```
+cat registry.json | json_reformat
+```
 
-`cat registry.json | json_reformat`
+或者:
 
-### 2. python
-
-`cat invalid.json | python -mjson.tool`
+```
+cat invalid.json | python -mjson.tool
+```
 
 ## 高亮
 
-### 1. pygmentize
+```
+cat registry.json | json_reformat | pygmentize -l javascript
+```
 
-`cat registry.json | json_reformat | pygmentize -l javascript`
+或者:
 
-## 
+```
+cat registry.json | jq .
+```
 
+## 在`json`中查找数据
+
+以下以`https://registry.npmjs.org/underscore`这个`json`文件为素材, 可以使用
+`curl https://registry.npmjs.org/underscore  > u.json` 获取这个文件
+
+### 查看某个属性
+
+```
+jq '._id' u.json # 'underscore'
+```
+
+### 查看某2个属性
+
+```
+jq '._id, .description' u.json
+# ->
+# "underscore"
+# "JavaScript's functional programming helper library."
+```
+
+### 看看一个数组
+
+```
+jq '.versions["1.0.3"].keywords' u.json # ["util","functional","server","client","browser"]
+```
+
+### 查看一个数组的第1个值
+
+```
+jq '.versions["1.0.3"].keywords[1]' u.json # "functional"
+```
+
+### 过滤属性
+
+```
+jq '.versions["1.0.3"] | .name, .author.name' u.json
+# ->
+# "underscore"
+# "Jeremy Ashkenas"
+```
+
+更多的例子请参考 `man page`: `man jq`
+
+## 转换`json`为`csv`
+
+```
+cat registry.json | json2csv -k db_name,doc_count,update_seq
+# registry,52964,870607
+```
+
+## 处理`csv`格式的数据
+
+### 排序 `csvsort`
+### 查看 `csvlook`
+### 保存到数据库里 `csvsql`
+
+## 用XPath和CSS选择器进行HTML信息提取 scrape
+
+```
+curl -s 'http://en.wikipedia.org/wiki/List_of_countries_and_territories_by_border/area_ratio' | scrape -b -e 'table.wikitable > tr:not(:first-child)' 
+```
+## 把XML转换成JSON xml2json
+
+```
+curl -s 'http://en.wikipedia.org/wiki/List_of_countries_and_territories_by_border/area_ratio' | scrape -be 'table.wikitable > tr:not(:first-child)' | xml2json | jq -c '.html.body.tr[] | {country: .td[1][], border: .td[2][], surface: .td[3][], ratio: .td[4][]}' | head
+```
+
+未完待续...
