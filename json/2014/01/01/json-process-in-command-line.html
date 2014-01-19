@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>命令行JSON,CSV数据处理工具简介</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap-theme.min.css"/>
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap.min.css"/>
+    </head>
+    <body>
+
+        <div class="container">
+          <div class="site">
+            <div class="header">
+              <h1 class="title"><a href="/index.html">blog</a></h1>
+              <a class="extra" href="/about.html">about</a>
+            </div>
+
+            <h2>命令行JSON,CSV数据处理工具简介</h2>
+<p class="meta">2014-01-01 11:03</p>
+
+<div id="post">
+<h2>简介</h2>
+
+<p><code>json</code>现在是最流行的数据交换格式了,但是在命令行中显示, 查找, 处理, 还是不如纯文本方便, 但是有了下面这些工具, 处理<code>json</code>数据可以易如反掌了。。
+以下只介绍<code>OS X</code>平台, <code>Linux</code>下相应工具也都有, 建议自己折腾就不介绍了, 至于<code>windows</code>用户, 自己想办法。。。</p>
+
+<h2>准备工作</h2>
+
+<ul>
+<li><code>brew</code>, <code>OS X</code>的包管理工具, 没有的话请先安装, <a href="http://brew.sh/">http://brew.sh/</a></li>
+<li><code>python</code>, 编程语言, 系统自带, <a href="http://python.org">http://python.org</a></li>
+<li><code>ruby</code>, 编程语言, 系统自带, <a href="https://www.ruby-lang.org/en/">https://www.ruby-lang.org/en/</a></li>
+<li><code>node</code>, 基于<code>v8</code>的<code>javascript</code>平台, <code>brew install node</code>, <a href="http://nodejs.org">http://nodejs.org</a></li>
+<li><code>go</code>, 编程语言, Google出品, <code>brew install go</code>, <a href="http://golang.org">http://golang.org</a></li>
+<li><code>R</code>, 编程语言, 擅长计算机统计和画图, <a href="http://www.r-project.org/">http://www.r-project.org/</a></li>
+<li><code>pip</code>, <code>python</code>的包管理工具, 安装<code>easy_install pip</code>, <a href="https://pypi.python.org/pypi/pip">https://pypi.python.org/pypi/pip</a></li>
+<li><code>gem</code>, <code>ruby</code>的包管理工具, 自带了, <a href="http://rubygems.org">http://rubygems.org</a></li>
+<li><code>npm</code>, <code>node</code>的包管理工具, 安装完<code>node</code>就有了, <a href="https://npmjs.org">https://npmjs.org</a></li>
+</ul>
+
+
+<h2>用到的工具</h2>
+
+<ul>
+<li><code>curl</code>, 下载工具, 系统自带, <a href="http://curl.haxx.se">http://curl.haxx.se</a></li>
+<li><code>wget</code>, 另一个下载工具, <code>brew install wget</code>, <a href="http://www.gnu.org/software/wget/">http://www.gnu.org/software/wget/</a></li>
+<li><code>yajl</code>, <code>C</code>语言编写的<code>json</code>库, 安装: <code>brew install yajl</code>, <a href="http://lloyd.github.io/yajl/">http://lloyd.github.io/yajl/</a></li>
+<li><code>pygmentize</code>, <code>ruby</code>语言的<code>Pygments</code>绑定, <code>Pygments</code>是用<code>python</code>编写的代码高亮工具, <a href="http://pygments.org/">http://pygments.org/</a></li>
+<li><code>jq</code>, <code>C</code>编写的命令行<code>json</code>处理工具, <code>brew install jq</code>, <a href="http://stedolan.github.io/jq/">http://stedolan.github.io/jq/</a></li>
+<li><code>json2csv</code>, <code>go</code>编写的<code>json</code>转<code>csv</code>工具, <code>go get github.com/jehiah/json2csv</code>, <a href="https://github.com/jehiah/json2csv">https://github.com/jehiah/json2csv</a></li>
+<li><code>csvkit</code>, <code>python</code>编写的<code>csv</code>格式处理工具, <code>sudo pip install csvkit</code>, <a href="https://github.com/onyxfish/csvkit">https://github.com/onyxfish/csvkit</a></li>
+<li><code>xml2json</code>, <code>javascript</code>编写的<code>xml</code>转<code>json</code>工具, <code>npm install -g xml2json-command</code>, <a href="https://github.com/parmentf/xml2json">https://github.com/parmentf/xml2json</a></li>
+<li><code>hquery</code>, <code>JavaScript</code>编写的从html中提取数据的工具, 基于<code>jsdom</code>, 可以使用<code>jQuery</code>和<code>underscore</code></li>
+<li><code>scrape</code>,<code>python</code>写的从html中提取数据的工具, <a href="https://github.com/jeroenjanssens/data-science-toolbox">https://github.com/jeroenjanssens/data-science-toolbox</a></li>
+</ul>
+
+
+<h2>获取<code>json</code>文件</h2>
+
+<ol>
+<li>可以用<code>curl</code>, 比如<code>curl https://registry.npmjs.org &gt; registry.json</code></li>
+<li>还可以用<code>wget</code>, 比如<code>wget https://registry.npmjs.org -o registry.json</code></li>
+<li>或者你从其他地方弄一个<code>json</code>文件过来</li>
+</ol>
+
+
+<h2>查看<code>json</code>文件</h2>
+
+<pre><code>cat registry.json
+</code></pre>
+
+<h2>校验<code>json</code></h2>
+
+<pre><code>cat registry.json | json_verify
+</code></pre>
+
+<p>或者:</p>
+
+<pre><code>cat invalid.json | python -mjson.tool
+</code></pre>
+
+<h2>格式化<code>json</code></h2>
+
+<pre><code>cat registry.json | json_reformat
+</code></pre>
+
+<p>或者:</p>
+
+<pre><code>cat invalid.json | python -mjson.tool
+</code></pre>
+
+<h2>高亮</h2>
+
+<pre><code>cat registry.json | json_reformat | pygmentize -l javascript
+</code></pre>
+
+<p>或者:</p>
+
+<pre><code>cat registry.json | jq .
+</code></pre>
+
+<h2>在<code>json</code>中查找数据</h2>
+
+<p>以下以<code>https://registry.npmjs.org/underscore</code>这个<code>json</code>文件为素材, 可以使用
+<code>curl https://registry.npmjs.org/underscore  &gt; u.json</code> 获取这个文件</p>
+
+<h3>查看某个属性</h3>
+
+<pre><code>jq '._id' u.json # 'underscore'
+</code></pre>
+
+<h3>查看某2个属性</h3>
+
+<pre><code>jq '._id, .description' u.json
+# -&gt;
+# "underscore"
+# "JavaScript's functional programming helper library."
+</code></pre>
+
+<h3>看看一个数组</h3>
+
+<pre><code>jq '.versions["1.0.3"].keywords' u.json # ["util","functional","server","client","browser"]
+</code></pre>
+
+<h3>查看一个数组的第1个值</h3>
+
+<pre><code>jq '.versions["1.0.3"].keywords[1]' u.json # "functional"
+</code></pre>
+
+<h3>过滤属性</h3>
+
+<pre><code>jq '.versions["1.0.3"] | .name, .author.name' u.json
+# -&gt;
+# "underscore"
+# "Jeremy Ashkenas"
+</code></pre>
+
+<p>更多的例子请参考 <code>man page</code>: <code>man jq</code></p>
+
+<h2>转换<code>json</code>为<code>csv</code></h2>
+
+<pre><code>cat registry.json | json2csv -k db_name,doc_count,update_seq
+# registry,52964,870607
+</code></pre>
+
+<h2>处理<code>csv</code>格式的数据</h2>
+
+<h3>排序 <code>csvsort</code></h3>
+
+<h3>查看 <code>csvlook</code></h3>
+
+<h3>保存到数据库里 <code>csvsql</code></h3>
+
+<h2>用XPath和CSS选择器进行HTML信息提取 scrape</h2>
+
+<pre><code>curl -s 'http://en.wikipedia.org/wiki/List_of_countries_and_territories_by_border/area_ratio' | scrape -b -e 'table.wikitable &gt; tr:not(:first-child)' 
+</code></pre>
+
+<h2>把XML转换成JSON xml2json</h2>
+
+<pre><code>curl -s 'http://en.wikipedia.org/wiki/List_of_countries_and_territories_by_border/area_ratio' | scrape -be 'table.wikitable &gt; tr:not(:first-child)' | xml2json | jq -c '.html.body.tr[] | {country: .td[1][], border: .td[2][], surface: .td[3][], ratio: .td[4][]}' | head
+</code></pre>
+
+<p>未完待续...</p>
+
+</div>
+
+
+            <div class="footer">
+              <div class="contact">
+                <div>lyuehh</div>
+                <div>programmer</div>
+                <div>lyuehh^gmail.com</div>
+              </div>
+              <div class="contact">
+                <a href="http://github.com/lyuehh/">github.com/lyuehh</a><br />
+                <a href="http://twitter.com/lyuehh/">twitter.com/lyuehh</a><br />
+                <a href="http://weibo.com/lyused/">weibo.com/lyused</a><br />
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- /container -->
+
+    </body>
+</html>
