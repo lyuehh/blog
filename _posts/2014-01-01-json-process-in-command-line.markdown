@@ -32,6 +32,8 @@ categories: json
 * `json2csv`, `go`编写的`json`转`csv`工具, `go get github.com/jehiah/json2csv`, <https://github.com/jehiah/json2csv>
 * `csvkit`, `python`编写的`csv`格式处理工具, `sudo pip install csvkit`, <https://github.com/onyxfish/csvkit>
 * `xml2json`, `javascript`编写的`xml`转`json`工具, `npm install -g xml2json-command`, <https://github.com/parmentf/xml2json>
+* `hquery`, `JavaScript`编写的从html中提取数据的工具, 基于`jsdom`, 可以使用`jQuery`和`underscore`
+* `scrape`,`python`写的从html中提取数据的工具, <https://github.com/jeroenjanssens/data-science-toolbox>
 
 ## 获取`json`文件
 
