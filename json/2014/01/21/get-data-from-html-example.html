@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>从HTML中抽取数据示例-双色球</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap-theme.min.css"/>
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap.min.css"/>
+    </head>
+    <body>
+
+        <div class="container">
+          <div class="site">
+            <div class="header">
+              <h1 class="title"><a href="/index.html">blog</a></h1>
+              <a class="extra" href="/about.html">about</a>
+            </div>
+
+            <h2>从HTML中抽取数据示例-双色球</h2>
+<p class="meta">2014-01-21 17:30</p>
+
+<div id="post">
+<h1>从HTML中抽取数据示例-双色球</h1>
+
+<h2>1</h2>
+
+<p>生在在天朝这种地方, 如果不是XXX或者XXX, 想要改变命运, 估计只能去买彩票了, 虽然彩票那东西也很可能不是真正的随机, 但是至少还是有一点盼头的...
+万一不是真正的随机, 那可能还是有规律可循的, 要真是那样就太好了, 这里就想办法得到双色球的数据, 然后分析下有什么规律, 怎么分析还不知道,
+我们先把数据拿下来再说...</p>
+
+<h2>2</h2>
+
+<p>经过google的搜索, 发现<a href="http://www.3dcp.cn/zs/gonggao.php?type=ssq&amp;year=2003">http://www.3dcp.cn/zs/gonggao.php?type=ssq&amp;year=2003</a>这个网站提供了从2003年到2014年的所有双色球数据,
+有的还有中奖的注数, 奖金啥的, 那我们就想办法从这里拿到数据就可以了</p>
+
+<h2>3</h2>
+
+<p>知道了数据源, 然后就要选择趁手的工具了, 这里使用<code>curl</code>和一个<code>JavaScript</code>编写的工具<code>hquery</code>, 其他的工具, 编程语言也都是可以的,
+能赚到耗子的猫都是好猫..</p>
+
+<pre><code class="shell">for i in `seq 2003 2014`
+do
+    u="http://www.3dcp.cn/zs/gonggao.php?type=ssq&amp;year=$i"
+    echo $u
+    curl -s $u | iconv -f gbk -t utf8  | hquery -p -r '$("table").eq(13).parent().html()' &gt; $i.html
+done
+</code></pre>
+
+<p>简单解释一下:<br/>
+从2003循环到2013, 然后curl得到html内容, 使用iconv将编码转换为utf8, 然后使用hquery从html中抽取出相应的table, 然后保存到对应年份的html里</p>
+
+<h2>4</h2>
+
+<p>html已经拿到了, 再写一个工具再次处理html即可..</p>
+
+<p>编写一个js文件处理html, 保存在a.js, 代码如下:</p>
+
+<pre><code class="javascript">a = _.reduce($("tr"), function(memo, v, i) {
+    var $el = $(v);
+    var obj = {};
+    obj.id = $.trim($el.find('.end').text());
+    obj.date = $el.find('td').eq(1).text();
+    obj.red = $el.find('.STYLE13').html() &amp;&amp; $el.find('.STYLE13').html().replace(/&amp;nbsp;/g, ' ');
+    obj.blue = $el.find('.STYLE12').text();
+    if (obj.id !== '') {
+        memo.push(obj);
+    }
+    return memo;
+}, []);
+console.log(JSON.stringify(a, null, 2));
+</code></pre>
+
+<p>然后再写一个小shell循环即可:</p>
+
+<pre><code class="shell">for i in `seq 2003 2014`
+do
+    echo $i
+    cat ${i}.html | hquery -p -f a.js | sed '$d' &gt; json/${i}.json
+done
+</code></pre>
+
+<p>稍微解释一下:<br/>
+hquery 接受 -f参数, 将文件内容视为js代码执行, 然后将结果输出, <code>sed $d</code>将最后一行删除, 因为那是一个undefined....</p>
+
+<h2>5</h2>
+
+<p>搞定, 双色球数据就保存在 2003.json ~ 2014.json中了, 格式为:</p>
+
+<pre><code>{
+    "id": "2003001",
+    "date": "2003-02-23",
+    "red": "10 11 12 13 26 28 ",
+    "blue": "11"
+}
+...
+</code></pre>
+
+<p>这样就可以接下来的处理了...</p>
+
+<p>hquery是我写的一个小工具, 基于jsdom, 包含了jQuery和underscore, 利用强大的eval, 实现了从html中抽取数据的工作...js的eval太强大了...</p>
+
+<h2>links</h2>
+
+<ul>
+<li><a href="https://gist.github.com/lyuehh/8537324">code</a></li>
+<li><a href="http://github.com/lyuehh/hquery">hquery</a></li>
+</ul>
+
+
+</div>
+
+
+            <div class="footer">
+              <div class="contact">
+                <div>lyuehh</div>
+                <div>programmer</div>
+                <div>lyuehh^gmail.com</div>
+              </div>
+              <div class="contact">
+                <a href="http://github.com/lyuehh/">github.com/lyuehh</a><br />
+                <a href="http://twitter.com/lyuehh/">twitter.com/lyuehh</a><br />
+                <a href="http://weibo.com/lyused/">weibo.com/lyused</a><br />
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- /container -->
+
+    </body>
+</html>
