@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>JavaScript学习笔记 - instanceof运算符</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap-theme.min.css"/>
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap.min.css"/>
+    </head>
+    <body>
+
+        <div class="container">
+          <div class="site">
+            <div class="header">
+              <h1 class="title"><a href="/index.html">blog</a></h1>
+              <a class="extra" href="/about.html">about</a>
+            </div>
+
+            <h2>JavaScript学习笔记 - instanceof运算符</h2>
+<p class="meta">2014-02-12 15:30</p>
+
+<div id="post">
+<h2>1</h2>
+
+<p><code>instanceof</code>运算符检查一个构造函数的<code>prototype</code>是否在一个对象的原型链中.</p>
+
+<h2>2</h2>
+
+<p>语法:</p>
+
+<pre><code>a instanceof B
+</code></pre>
+
+<p>说明:</p>
+
+<p>a 是一个对象, B是一个函数</p>
+
+<h2>3</h2>
+
+<p>规则:</p>
+
+<p>如果<br/>
+<code>Object.getPrototypeOf(a) === B.prototype</code>, 或者  <br/>
+<code>Object.getPrototypeOf(Object.getPrototypeOf(a)) === B.prototype</code><br/>
+等等... 那么返回true, 否则返回false.</p>
+
+<p>也可以这么理解:</p>
+
+<p>如果 <code>a.__proto__ === B.prototype</code>, 或者 <code>a.__proto__.__proto__ === B.prototype</code>等等... 那么返回true, 否则返回false.</p>
+
+<h2>4</h2>
+
+<pre><code>Function instanceof Object // ?
+Object instanceof Function // ?
+</code></pre>
+
+<p>分析:</p>
+
+<h3>Function instanceof Object</h3>
+
+<p><code>Function</code> 是一个函数, 是<code>Function</code>构造函数的一个实例, 所以 <code>Function.__proto__ === Function.prototype</code>, <code>而Function.prototype</code> 是一个对象的实例,
+所以 <code>Function.prototype.__proto__ === Object.prototype</code>, 也就是说 <code>Function.__proto__.__proto__ === Object.prototype</code>, 所以这个结果是true</p>
+
+<h3>Object instanceof Function</h3>
+
+<p><code>Object</code> 是一个函数, 也是Function构造函数的一个实例, <code>Object.__proto__ === Function.prototype</code>, 所以这个结果也是true</p>
+
+<h3>同理, 以下这些都是true</h3>
+
+<pre><code>Function instanceof Function
+String instanceof Function
+Number instanceof Function
+Boolean instanceof Function
+Array instanceof Function
+</code></pre>
+
+<h2>5</h2>
+
+<p><img src="http://lyuehh-img.qiniudn.com/prototype.jpg" alt="prototype.jpg" /></p>
+
+<h2>6</h2>
+
+<p>参考资料:</p>
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof</a></li>
+<li><a href="http://www.cnblogs.com/objectorl/archive/2010/01/11/Object-instancof-Function-clarification.html">http://www.cnblogs.com/objectorl/archive/2010/01/11/Object-instancof-Function-clarification.html</a></li>
+</ul>
+
+
+</div>
+
+
+            <div class="footer">
+              <div class="contact">
+                <div>lyuehh</div>
+                <div>programmer</div>
+                <div>lyuehh^gmail.com</div>
+              </div>
+              <div class="contact">
+                <a href="http://github.com/lyuehh/">github.com/lyuehh</a><br />
+                <a href="http://twitter.com/lyuehh/">twitter.com/lyuehh</a><br />
+                <a href="http://weibo.com/lyused/">weibo.com/lyused</a><br />
+              </div>
+            </div>
+
+            <div class="comments">
+              <!-- Duoshuo Comment BEGIN -->
+                <div class="ds-thread"></div>
+                <script type="text/javascript">
+                var duoshuoQuery = {short_name:"lyuehh-blog"};
+                (function() {
+                  var ds = document.createElement('script');
+                  ds.type = 'text/javascript';ds.async = true;
+                  ds.src = 'http://static.duoshuo.com/embed.js';
+                  ds.charset = 'UTF-8';
+                  (document.getElementsByTagName('head')[0]
+                  || document.getElementsByTagName('body')[0]).appendChild(ds);
+                })();
+                </script>
+              <!-- Duoshuo Comment END -->
+            </div>
+          </div>
+
+        </div> <!-- /container -->
+    </body>
+</html>
