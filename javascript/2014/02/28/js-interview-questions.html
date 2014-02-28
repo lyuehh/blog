@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>JavaScript面试问题集锦</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- syntax highlighting CSS -->
+        <link rel="stylesheet" href="/css/syntax.css">
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/main.css">
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap-theme.min.css"/>
+         <link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.0.0/css/bootstrap.min.css"/>
+    </head>
+    <body>
+
+        <div class="container">
+          <div class="site">
+            <div class="header">
+              <h1 class="title"><a href="/index.html">blog</a></h1>
+              <a class="extra" href="/about.html">about</a>
+            </div>
+
+            <h2>JavaScript面试问题集锦</h2>
+<p class="meta">2014-02-28 11:18</p>
+
+<div id="post">
+<p>以下是我自己整理的JavaScript相关的面试题, 大部分出自 &lt;JavaScript高级程序设计第3版>这本书, 放在这里, 供大家参考...</p>
+
+<h1>1 历史</h1>
+
+<ol>
+<li>JavaScript诞生的时间, 动机, 发明者</li>
+<li>JavaScript和ECMAScrpit的关系, 和JScript的关系</li>
+<li>简单介绍下 ECMAScript 3, ECMAScript 4, ECMAScript 5, ECMAScript 6各有什么改进</li>
+</ol>
+
+
+<h1>2 基础</h1>
+
+<ol>
+<li>简单介绍下 严格模式</li>
+<li>js里的关键字和保留字</li>
+<li>js里有几种数据类型, 分别是?</li>
+<li>typeof 的返回值有几种?</li>
+<li>简单介绍下 null 和 undefined 有什么区别?</li>
+<li>new Boolean(false) 是true还是false, 为什么</li>
+<li>简单介绍下NaN</li>
+<li>简答介绍下 parseInt 函数</li>
+<li>(10).toString(2)的结果是? 为什么?</li>
+<li>toString 方法和 valueOf 方法的区别?</li>
+<li>2 * "12" 的结果是?</li>
+<li>简单介绍下 arguments 对象</li>
+<li>js里有函数重载吗?</li>
+<li>js里函数调用是值传递还是引用传递?</li>
+<li>介绍下js里的作用域链?</li>
+<li>js里有什么方法可以延长作用域链?</li>
+<li>怎么理解js里的 预编译 这个过程?</li>
+<li>js里 查找一个变量的过程?</li>
+<li>js有垃圾自动收集机制吗?</li>
+<li>js中有块级作用域吗?</li>
+<li>为什么建议使用 === 而不是 == ?</li>
+<li>!!x 这种语法有什么用?</li>
+<li>js代码中可以省略最后的分号吗? 有什么坏处吗?</li>
+</ol>
+
+
+<h1>3 引用类型相关</h1>
+
+<ol>
+<li>如何检查一个变量是不是数组, 你能想到几种方法?</li>
+<li>如何用js里的数组模拟栈和队列, 有哪些相关的方法?</li>
+<li>[1, 2, 10, 12].sort() 的结果是?</li>
+<li>如何删除一个数组的第3个元素?</li>
+<li>简单介绍下es5中给数组新增的 every, filter, forEach, map, some, reduce 方法</li>
+<li>js中如何知道今天是星期几, 如何知道今天的年份?</li>
+<li>js中正则表达式的 g, i, m标志分别是什么意思?</li>
+<li>Function 是一个对象还是一个函数? 为什么?</li>
+<li>函数声明和函数表达式有什么区别?</li>
+<li>为什么说 js 有一点函数式编程语言的特性?</li>
+<li>简单介绍下函数调用时的 this 代表什么</li>
+<li>apply 方法和 call 方法有什么区别, 有什么用途?</li>
+<li>每个函数都有prototype这个属性吗? 简单介绍下这个属性</li>
+<li>js的字符串有3个类似的方法, slice, substr, substring, 这三个方法有什么区别?</li>
+<li>encodeURI方法和 encodeURIComponent方法有什么区别?</li>
+<li>js中常见的异常有哪些?</li>
+<li>如何找到一个数组的最大值, 比如[1, 9, 2, 4], 可以只用Math对象的方法做到吗?</li>
+<li>如何删除对象的属性?</li>
+<li>一个对象的属性查找的过程?</li>
+<li>hasOwnProperty 有什么用?</li>
+</ol>
+
+
+<h1>4 面向对象相关</h1>
+
+<ol>
+<li>什么是面向对象? 常见的面向对象语言有哪些? js是面向对象语言吗?</li>
+<li>面向对象 有哪些基本特征?</li>
+<li>js中如何创建一个对象?</li>
+<li>简单介绍下原型和原型链?</li>
+<li><strong>proto</strong> 这个属性有什么用?</li>
+<li>数组的sort方法是存在哪里的?, toString方法呢?</li>
+<li>Function instanceOf Object的结果, Object instanceof Object的结果?</li>
+<li>简单介绍下 Object.create 这个方法?</li>
+<li>如何在js中实现继承? 有几种方法?</li>
+</ol>
+
+
+<h1>5 函数表达式</h1>
+
+<ol>
+<li>简单介绍下匿名函数?</li>
+<li>简单介绍下闭包?</li>
+<li>实现一个简单的闭包?</li>
+<li>如何在js中模拟私有变量?</li>
+</ol>
+
+
+<h1>6 BOM</h1>
+
+<ol>
+<li>什么是BOM, 和js有什么关系?</li>
+<li>浏览器通过哪几个方法可以调用系统对话框?</li>
+<li>window.location.protocol 的值一般是?</li>
+<li>window.location.search 这个值有什么用?</li>
+<li>如何获取屏幕的宽和高各有多少个像素?</li>
+<li>js中如何区分不同的浏览器?</li>
+<li>常见的浏览器有哪几款, 最新的版本号分别是多少?</li>
+<li>手机上的移动浏览器的内核一般是?</li>
+</ol>
+
+
+<h1>7 DOM</h1>
+
+<ol>
+<li>什么是DOM, 和js有什么关系?</li>
+<li>查找DOM元素一般有哪些方法?</li>
+<li>如何创建一个文本节点, 如何创建一个DOM元素?</li>
+<li>如何知道某个元素的子节点的数目?</li>
+<li>元素和标签有什么区别?</li>
+<li>常见的标签有哪些?</li>
+<li>什么是块元素和行内元素? 如何在两者之间转换?</li>
+</ol>
+
+
+<h1>8 事件</h1>
+
+<ol>
+<li>IE中的事件流和其他浏览器的事件流有什么区别? W3C是怎么解决这个问题的?</li>
+<li>给一个元素绑定一个事件, 有哪几种方法?</li>
+<li>事件处理程序中, 如何阻止事件进一步冒泡或捕获? 如何取消事件的默认行为?</li>
+<li>事件对象中的 this, target, currentTarget有什么区别?</li>
+<li>load事件可以在哪些元素上触发?</li>
+<li>简单介绍下resize事件?</li>
+<li>鼠标事件有哪些?</li>
+<li>简单介绍下鼠标滚轮事件?</li>
+<li>keydown, keypress, keyup事件有什么区别?</li>
+<li>hashchange事件有什么用?</li>
+<li>简单介绍下触摸事件?</li>
+<li>简单介绍下事件委托?</li>
+<li>富文本编辑器的原理?</li>
+<li>console对象有哪些常用方法?</li>
+<li>如何调试js代码?</li>
+</ol>
+
+
+<h1>9 JSON和Ajax</h1>
+
+<ol>
+<li>什么是JSON? JSON只支持JavaScript吗?</li>
+<li>JSON中有哪几种类型的值?</li>
+<li>如何解析和序列化 JSON对象?</li>
+<li>如何在序列化时过滤 JSON对象中的值?</li>
+<li>toJSON方法有什么用?</li>
+<li>什么是Ajax? 何时诞生, 有什么用?</li>
+<li>XHR可以发送同步请求吗?</li>
+<li>Ajax可以用来发送文件吗?</li>
+<li>Ajax可以处理超时吗?</li>
+<li>Ajax如何实现跨域?</li>
+<li>有哪些跨域的方法?</li>
+<li>什么是JSONP?</li>
+<li>服务器可以主动发送数据到客户端吗?</li>
+<li>简单介绍下 web sockets?</li>
+</ol>
+
+
+<h1>10 一些进阶问题</h1>
+
+<ol>
+<li>Function.prototype.bind函数有什么用? 如何自己实现?</li>
+<li>简单介绍下 函数柯里化</li>
+<li>setTimeout和 setInterval 有什么区别?</li>
+<li>简单介绍下 函数节流? 实现一个简单的函数节流</li>
+</ol>
+
+
+<h1>11 网络相关</h1>
+
+<ol>
+<li>请简单描述一下一个HTTP请求的过程</li>
+<li>假如现在需要你建一个网站,域名是xxx.com 你打算如何去做</li>
+<li>如果现在有一个页面打不开, 你打算如何解决这个问题</li>
+<li>请简单描述一下制作一个HTML页面的过程</li>
+<li>请简单介绍一下什么是渐进增强和优雅降级</li>
+<li>请简单介绍下HTML5相比HTML4有哪些区别</li>
+<li>如何优化网站的性能</li>
+<li>HTTP基于TCP还是UDP? 为什么?</li>
+<li>HTTPS 和 HTTP有什么区别?</li>
+<li>常见的HTTP请求头和HTTP相应头有哪些?</li>
+<li>简单介绍下 web 缓存?</li>
+<li>为什么有时候都是一个图片url, 有的会直接在浏览器显示, 有的却是弹出下载框?</li>
+<li>简单介绍下什么是DNS</li>
+</ol>
+
+
+</div>
+
+
+            <div class="footer">
+              <div class="contact">
+                <div>lyuehh</div>
+                <div>programmer</div>
+                <div>lyuehh^gmail.com</div>
+              </div>
+              <div class="contact">
+                <a href="http://github.com/lyuehh/">github.com/lyuehh</a><br />
+                <a href="http://twitter.com/lyuehh/">twitter.com/lyuehh</a><br />
+                <a href="http://weibo.com/lyused/">weibo.com/lyused</a><br />
+              </div>
+            </div>
+
+            <div class="comments">
+              <!-- Duoshuo Comment BEGIN -->
+                <div class="ds-thread"></div>
+                <script type="text/javascript">
+                var duoshuoQuery = {short_name:"lyuehh-blog"};
+                (function() {
+                  var ds = document.createElement('script');
+                  ds.type = 'text/javascript';ds.async = true;
+                  ds.src = 'http://static.duoshuo.com/embed.js';
+                  ds.charset = 'UTF-8';
+                  (document.getElementsByTagName('head')[0]
+                  || document.getElementsByTagName('body')[0]).appendChild(ds);
+                })();
+                </script>
+              <!-- Duoshuo Comment END -->
+            </div>
+          </div>
+
+        </div> <!-- /container -->
+    </body>
+</html>
