@@ -71,7 +71,7 @@ categories: javascript
 2. 面向对象 有哪些基本特征?
 3. js中如何创建一个对象?
 4. 简单介绍下原型和原型链?
-5. __proto__ 这个属性有什么用?
+5. &#95;&#95;proto&#95;&#95;  这个属性有什么用?
 6. 数组的sort方法是存在哪里的?, toString方法呢?
 7. Function instanceOf Object的结果, Object instanceof Function?
 8. 简单介绍下 Object.create 这个方法?
