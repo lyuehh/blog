@@ -73,7 +73,7 @@ categories: javascript
 4. 简单介绍下原型和原型链?
 5. __proto__ 这个属性有什么用?
 6. 数组的sort方法是存在哪里的?, toString方法呢?
-7. Function instanceOf Object的结果, Object instanceof Object的结果?
+7. Function instanceOf Object的结果, Object instanceof Function?
 8. 简单介绍下 Object.create 这个方法?
 9. 如何在js中实现继承? 有几种方法?
 
